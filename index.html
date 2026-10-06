@@ -509,6 +509,16 @@
                         <div class="feed-item">
                             <div class="feed-header">
                                 <span>Consulta frecuente</span>
+                                <span>Tipo: Precios / Dudas</span>
+                            </div>
+                            <div class="feed-q">P: &iquest;Cobran por hacer preguntas o consultas?</div>
+                            <div class="feed-a">R: No. Consultar es gratis, siempre. Solo se cobra cuando ejecutamos tu encargo.</div>
+                        </div>
+
+
+                        <div class="feed-item">
+                            <div class="feed-header">
+                                <span>Consulta frecuente</span>
                                 <span>Tipo: Pregunta / Apuro</span>
                             </div>
                             <div class="feed-q">P: ¿Se puede encargar un diseño web con temática retro de los 90s en menos de 24 horas?</div>
@@ -582,6 +592,19 @@
                             <input type="text" id="name" name="name" required placeholder="Ej. Mile o Anonimo">
                         </div>
                         <div class="form-group">
+                            <label for="contact_method"><i class="fa-solid fa-address-book"></i> &iquest;C&oacute;mo te contactamos de vuelta?</label>
+                            <select id="contact_method" name="contact_method">
+                                <option value="Gmail">Correo Gmail</option>
+                                <option value="WhatsApp / Telefono">WhatsApp / N&uacute;mero de tel&eacute;fono</option>
+                                <option value="Instagram">Instagram (usuario)</option>
+                                <option value="TikTok">TikTok (usuario)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_info">Tu contacto (seg&uacute;n lo elegido arriba):</label>
+                            <input type="text" id="contact_info" name="contact_info" required placeholder="Ej. tunombre@gmail.com / +51 999 999 999 / @tucuenta">
+                        </div>
+                        <div class="form-group">
                             <label for="desperation">Tipo de Solicitud / Pregunta:</label>
                             <select id="desperation" name="desperation">
                                 <option value="Solicitud - Tranquilo">Solicitud: Con tiempo planificado</option>
@@ -592,6 +615,9 @@
                         <div class="form-group">
                             <label for="budget">Presupuesto (Opcional si es encargo) [S/.]:</label>
                             <input type="number" id="budget" name="budget" min="0" step="any" placeholder="Ej. 5 o 15.50" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
+                            <div id="free-note" style="font-size: 11px; color: #000080; margin-top: 4px; font-family: 'VT323', monospace;">
+                                ★ Las preguntas son gratis: presupuesto en 0 y contacto desactivado autom&aacute;ticamente.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="payment_method"><i class="fa-solid fa-credit-card"></i> Método de Pago Preferido:</label>
@@ -642,6 +668,28 @@
             }
             localStorage.setItem('site_visits', visits);
             document.getElementById('visitor-count').innerText = String(visits).padStart(6, '0');
+        });
+
+        const budgetField = document.getElementById('budget');
+        const typeSelect = document.getElementById('desperation');
+        const contactMethod = document.getElementById('contact_method');
+        const contactInfo = document.getElementById('contact_info');
+        typeSelect.addEventListener('change', () => {
+            if (typeSelect.value === 'Solo una Pregunta Anonima') {
+                budgetField.value = '0';
+                budgetField.readOnly = true;
+                // Pregunta anonima: sin contacto de vuelta (campos grises y bloqueados)
+                contactMethod.disabled = true;
+                contactInfo.disabled = true;
+                contactInfo.value = '';
+                contactInfo.placeholder = 'No aplica para preguntas anonimas';
+            } else {
+                budgetField.readOnly = false;
+                if (budgetField.value === '0') budgetField.value = '';
+                contactMethod.disabled = false;
+                contactInfo.disabled = false;
+                contactInfo.placeholder = 'Ej. tunombre@gmail.com / +51 999 999 999 / @tucuenta';
+            }
         });
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwAPPEemwEPcRmDXYfvwTHclmZ1rpZJGoScWYZsbMHMEaRdHSXjsBw1uiwydKBBN8AJ-Q/exec'; 
