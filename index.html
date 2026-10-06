@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --win-bg: #008080;
+            --win-bg: #ff4f9a;
             --win-gray: #c0c0c0;
             --win-border-light: #ffffff;
             --win-border-dark: #808080;
@@ -23,8 +23,7 @@
         }
 
         body {
-            background-color: var(--win-bg);
-            background-image: radial-gradient(#005555 15%, transparent 16%), radial-gradient(#005555 15%, transparent 16%);
+            background: linear-gradient(135deg, #ffe0ec 0%, #f2e2ff 55%, #e2e8ff 100%);
             background-size: 20px 20px;
             background-position: 0 0, 10px 10px;
             font-family: 'Inter', sans-serif;
@@ -60,7 +59,7 @@
         }
 
         .win-titlebar {
-            background: linear-gradient(90deg, #000080, #1084d0);
+            background: linear-gradient(90deg, #ff2e88, #ff8c42);
             color: white;
             padding: 5px 8px;
             font-weight: bold;
@@ -106,6 +105,21 @@
             color: #333;
         }
 
+        /* ===== estrellas gyaru ===== */
+        .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+        .star { position: absolute; color: #fff; animation: twinkle 2.2s infinite ease-in-out;
+                text-shadow: 0 0 6px #fff, 0 0 12px currentColor; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.12; transform: scale(0.6) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(25deg); }
+        }
+        .gh-btn {
+            background: linear-gradient(90deg, #ff2e88, #b04df0) !important;
+            color: #fff !important;
+            margin-top: 10px;
+        }
+        .gh-btn:hover { filter: brightness(1.15); }
+
         .retro-btn {
             background: var(--win-gray);
             border: 2px solid;
@@ -124,6 +138,8 @@
 
         #main-content {
             display: none;
+            position: relative;
+            z-index: 1;
             width: 100%;
             max-width: 900px;
         }
@@ -135,6 +151,11 @@
             box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
         }
 
+        .gyaru-band {
+            height: 10px;
+            background: repeating-linear-gradient(45deg, #ff2e88 0 22px, #ffd23f 22px 44px, #b04df0 44px 66px, #00e5c7 66px 88px);
+            border-bottom: 2px solid #000;
+        }
         .menu-bar {
             background: var(--win-gray);
             padding: 3px 6px;
@@ -150,13 +171,13 @@
             padding: 2px 5px;
         }
         .menu-item:hover {
-            background: #000080;
+            background: #ff2e88;
             color: white;
         }
 
         .visitor-counter-bar {
             background: #000;
-            color: #00ff00;
+            color: #ff6fb5;
             font-family: 'VT323', monospace;
             font-size: 16px;
             padding: 5px 12px;
@@ -171,9 +192,9 @@
             border: 1px inset #444;
             padding: 1px 8px;
             letter-spacing: 2px;
-            color: #00ff00;
+            color: #ff6fb5;
             font-weight: bold;
-            text-shadow: 0 0 4px rgba(0,255,0,0.5);
+            text-shadow: 0 0 6px rgba(255,111,181,0.8);
         }
 
         .main-content-body {
@@ -187,9 +208,9 @@
         }
 
         .banner-box {
-            border: 2px dashed #000;
+            border: 2px dashed #ff2e88;
             padding: 15px;
-            background: #fffdf0;
+            background: #ffe3f1;
             margin-bottom: 20px;
         }
 
@@ -217,7 +238,7 @@
         .section-box h2 {
             font-family: 'VT323', monospace;
             font-size: 20px;
-            background: #000080;
+            background: linear-gradient(90deg, #ff2e88, #b04df0);
             color: #fff;
             padding: 4px 8px;
             margin: -15px -15px 12px -15px;
@@ -263,7 +284,7 @@
 
         .price-badge {
             display: inline-block;
-            background: #000;
+            background: linear-gradient(90deg,#ff2e88,#ff8c42);
             color: #fff;
             font-family: 'VT323', monospace;
             font-size: 15px;
@@ -307,7 +328,7 @@
             color: #444;
             background: #fffdf0;
             padding: 6px;
-            border-left: 3px solid #000080;
+            border-left: 3px solid #ff2e88;
             font-style: italic;
         }
 
@@ -326,8 +347,8 @@
         }
 
         .polaroid-screen {
-            background: #000;
-            color: #0f0;
+            background: #2a0a1e;
+            color: #ff9de2;
             font-family: 'VT323', monospace;
             height: 90px;
             display: flex;
@@ -338,6 +359,16 @@
             border: 1px inset #555;
         }
 
+        .polaroid-img {
+            width: 100%;
+            height: 115px;
+            object-fit: cover;
+            object-position: top center;
+            border: 1px inset #555;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .polaroid-link { color: #ff2e88; font-weight: bold; text-decoration: none; font-size: 10px; }
         .polaroid-frame span {
             font-size: 11px;
             font-family: 'Special Elite', cursive;
@@ -414,7 +445,7 @@
             font-size: 16px;
             text-align: center;
             margin-top: 10px;
-            color: #000080;
+            color: #ff2e88;
         }
 
         .footer-note {
@@ -456,6 +487,7 @@
                 </div>
             </div>
 
+            <div class="gyaru-band"></div>
             <div class="menu-bar">
                 <span class="menu-item" onclick="location.reload()"><i class="fa-solid fa-house"></i> Inicio</span>
                 <span class="menu-item" onclick="document.getElementById('services-section').scrollIntoView({behavior: 'smooth'})"><i class="fa-solid fa-box"></i> Servicios</span>
@@ -471,15 +503,17 @@
             <div class="main-content-body">
 
                 <div class="banner-box">
-                    <h1><i class="fa-solid fa-wand-magic-sparkles"></i> OFICINA DE ENCARGOS Y OTROS</h1>
+                    <h1><i class="fa-solid fa-wand-magic-sparkles"></i> ✨ OFICINA DE ENCARGOS Y OTROS ✨</h1>
                     <div class="banner-sub">
                         Soluciones ingeniosas y detalles personalizados desde S/. 5. Gestión directa y discreta para apuros operativos.<br><br>
                         La Oficina la atiende una sola persona con muchas pestañas abiertas. Entregas estándar: 48-72h · Express 24h con tarifa adicional.
+                        <br>
+                        <button class="retro-btn gh-btn" onclick="window.open('https://github.com/Gatobarato-japan','_blank')">&#9733; VER MI GITHUB &#9733;</button>
                     </div>
                 </div>
 
                 <div class="section-box" id="services-section">
-                    <h2><i class="fa-solid fa-box-open"></i> Servicios y Paquetes</h2>
+                    <h2><i class="fa-solid fa-box-open"></i>✦  Servicios y Paquetes</h2>
                     <div class="services-grid">
                         <div class="service-card">
                             <h3><i class="fa-solid fa-laptop-code"></i> Paquete Web Express</h3>
@@ -500,7 +534,7 @@
                 </div>
 
                 <div class="section-box" id="community-section">
-                    <h2><i class="fa-solid fa-comments"></i> Buzón de Consultas Frecuentes</h2>
+                    <h2><i class="fa-solid fa-comments"></i>✦  Buzón de Consultas Frecuentes</h2>
                     <p style="font-size: 12px; color: #555; margin-bottom: 12px;">
                         Las preguntas que más llegan a la Oficina. Si la tuya no está aquí, envíala por el formulario de abajo — las mejores se archivan en esta sección.
                     </p>
@@ -546,21 +580,24 @@
                 </div>
 
                 <div class="section-box">
-                    <h2><i class="fa-solid fa-images"></i> Galería de Trabajos</h2>
+                    <h2><i class="fa-solid fa-images"></i> ✦ Galería de Trabajos</h2>
                     <div class="gallery-grid">
                         <div class="polaroid-frame">
-                            <div class="polaroid-screen">&lt;Web_Express /&gt;</div>
-                            <span>Detalle v1.0</span>
+                            <img class="polaroid-img" src="cumple-khory.png" alt="Web de cumpleaños para Khory">
+                            <span>Web de cumpleaños · encargo #001</span>
+                            <a class="polaroid-link" href="https://proyecto-khory-2026.vercel.app/" target="_blank">ver sitio ↗</a>
                         </div>
                         <div class="polaroid-frame">
-                            <div class="polaroid-screen">[Investigación_Activa]</div>
-                            <span>Asesoría de Estilo</span>
+                            <img class="polaroid-img" src="planificador.png" alt="Planificador de 8 semanas">
+                            <span>Planificador 8 semanas · imprimible PDF</span>
                         </div>
                     </div>
+                    <p style="font-size: 11px; color: #888; margin-top: 8px; font-style: italic;">
+                        * Encargos hechos con cariño. El de cumpleaños hasta tenía botón de bonus secreto.
+                    </p>
                 </div>
-
                 <div class="section-box">
-                    <h2><i class="fa-solid fa-chart-line"></i> Reporte Operativo</h2>
+                    <h2><i class="fa-solid fa-chart-line"></i>✦  Reporte Operativo</h2>
                     <div class="table-responsive">
                         <table class="retro-table">
                             <tr>
@@ -584,7 +621,7 @@
                 </div>
 
                 <div class="section-box" id="contact-section">
-                    <h2><i class="fa-solid fa-paper-plane"></i> Formulario de Solicitud y Preguntas Anónimas</h2>
+                    <h2><i class="fa-solid fa-paper-plane"></i>✦  Formulario de Solicitud y Preguntas Anónimas</h2>
 
                     <form id="contact-form">
                         <div class="form-group">
@@ -726,6 +763,24 @@
                 submitBtn.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> ENVIAR A GMAIL';
             });
         });
+
+        // estrellitas gyaru titilando
+        const starsBox = document.createElement('div');
+        starsBox.className = 'stars';
+        document.body.appendChild(starsBox);
+        const starColors = ['#ffffff', '#ffd23f', '#ff9de2', '#a0f0ff'];
+        for (let i = 0; i < 30; i++) {
+            const s = document.createElement('span');
+            s.className = 'star';
+            s.textContent = '\u2726';
+            s.style.left = (Math.random() * 100) + '%';
+            s.style.top = (Math.random() * 100) + '%';
+            s.style.fontSize = (9 + Math.random() * 15) + 'px';
+            s.style.color = starColors[Math.floor(Math.random() * starColors.length)];
+            s.style.animationDelay = (Math.random() * 2.5) + 's';
+            s.style.animationDuration = (1.6 + Math.random() * 2.2) + 's';
+            starsBox.appendChild(s);
+        }
     </script>
 </body>
 </html>
