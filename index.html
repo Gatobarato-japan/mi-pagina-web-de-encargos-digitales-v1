@@ -1,33 +1,196 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="gyaru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oficina de Encargos y Otros</title>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=VT323&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        /* Aplica la estética predeterminada antes de pintar (evita parpadeo) */
+        (function () {
+            var ok = ['gyaru', 'office', 'emo', 'idol'];
+            try {
+                var t = localStorage.getItem('oe_theme_default');
+                document.documentElement.dataset.theme = ok.indexOf(t) > -1 ? t : 'gyaru';
+            } catch (e) { document.documentElement.dataset.theme = 'gyaru'; }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Pacifico&family=Pixelify+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&family=Space+Mono:wght@400;700&family=UnifrakturCook:wght@700&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --win-bg: #ff4f9a;
-            --win-gray: #c0c0c0;
-            --win-border-light: #ffffff;
-            --win-border-dark: #808080;
-            --win-border-darkest: #000000;
-            --text-color: #000000;
+        /* =====================================================
+           BASE + VARIABLES (tema por defecto: Gyaru / Kawaii)
+           ===================================================== */
+        :root, html[data-theme="gyaru"] {
+            --page-bg: linear-gradient(135deg, #ffe0ec 0%, #f4e1ff 55%, #dfe9ff 100%);
+            --win: #ffc2e0;
+            --bev-out: #ffffff #e0509a #e0509a #ffffff;
+            --bev-in: #e0509a #ffffff #ffffff #e0509a;
+            --paper: #fffafd;
+            --soft: #fff0f8;
+            --field: #ffffff;
+            --ink: #4b1a3a;
+            --muted: #8c5a7d;
+            --acc: #ff2e88;
+            --acc2: #b04df0;
+            --acc3: #ffd23f;
+            --titlebar: linear-gradient(90deg, #ff2e88, #ff8c42);
+            --tb-ink: #ffffff;
+            --f-body: 'Fredoka', sans-serif;
+            --f-head: 'Fredoka', sans-serif;
+            --f-ui: 'Fredoka', sans-serif;
+            --f-title: 'Pacifico', cursive;
+            --fs: 14px;
+            --tb-fs: 14px;
+            --btn-fs: 16px;
+            --h2-fs: 18px;
+            --r: 16px;
+            --rs: 8px;
+            --bw: 3px;
+            --tt: none;
+            --shadow: 0 8px 0 rgba(255, 46, 136, .25), 0 0 40px rgba(255, 255, 255, .9);
+            --h2-bg: linear-gradient(90deg, #ff2e88, #b04df0);
+            --h2-ink: #ffffff;
+            --btn-bg: linear-gradient(#ffffff, #ffd0e8);
+            --btn-ink: #b0125f;
+            --price-bg: linear-gradient(90deg, #ff2e88, #ff8c42);
+            --price-ink: #ffffff;
+            --cnt-bg: #2a0a1e;
+            --cnt-ink: #ff6fb5;
+            --link: #d4147a;
+            --maxw: 900px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        html[data-theme="office"] {
+            --page-bg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26'><path d='M13 4v18M8 10h10' stroke='%23a9a9a9' stroke-width='2' fill='none'/></svg>") 0 0/26px 26px, #d2d2d2;
+            --win: #c0c0c0;
+            --bev-out: #ffffff #404040 #404040 #ffffff;
+            --bev-in: #808080 #ffffff #ffffff #808080;
+            --paper: #e6e6e6;
+            --soft: #d4d4d4;
+            --field: #f4f4f4;
+            --ink: #1a1a1a;
+            --muted: #4a4a4a;
+            --acc: #2f2f2f;
+            --acc2: #6b6b6b;
+            --acc3: #9a9a9a;
+            --titlebar: linear-gradient(90deg, #3a3a3a, #8a8a8a);
+            --tb-ink: #ffffff;
+            --f-body: 'VT323', monospace;
+            --f-head: 'UnifrakturCook', serif;
+            --f-ui: 'VT323', monospace;
+            --f-title: 'UnifrakturCook', serif;
+            --fs: 17px;
+            --tb-fs: 17px;
+            --btn-fs: 18px;
+            --h2-fs: 22px;
+            --r: 0px;
+            --rs: 0px;
+            --bw: 2px;
+            --tt: lowercase;
+            --shadow: 6px 6px 0 rgba(0, 0, 0, .35);
+            --h2-bg: linear-gradient(#cfcfcf, #a8a8a8);
+            --h2-ink: #000000;
+            --btn-bg: #c0c0c0;
+            --btn-ink: #000000;
+            --price-bg: #000000;
+            --price-ink: #e6e6e6;
+            --cnt-bg: #000000;
+            --cnt-ink: #d8d8d8;
+            --link: #1a1a8c;
+            --maxw: 1000px;
         }
+
+        html[data-theme="emo"] {
+            --page-bg: radial-gradient(rgba(0, 0, 0, .13) 1px, transparent 1.6px) 0 0/6px 6px, url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .38 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"), #e9e9e6;
+            --win: #f1f1ee;
+            --bev-out: #000 #000 #000 #000;
+            --bev-in: #000 #000 #000 #000;
+            --paper: #f6f6f3;
+            --soft: #e4e4e1;
+            --field: #ffffff;
+            --ink: #0b0b0b;
+            --muted: #555555;
+            --acc: #000000;
+            --acc2: #6e6e6e;
+            --acc3: #bdbdbd;
+            --titlebar: #000000;
+            --tb-ink: #ffffff;
+            --f-body: 'Space Mono', monospace;
+            --f-head: 'Pixelify Sans', monospace;
+            --f-ui: 'Pixelify Sans', monospace;
+            --f-title: 'Pixelify Sans', monospace;
+            --fs: 12px;
+            --tb-fs: 13px;
+            --btn-fs: 16px;
+            --h2-fs: 18px;
+            --r: 0px;
+            --rs: 0px;
+            --bw: 1px;
+            --tt: uppercase;
+            --shadow: 0 0 0 1px #000, 10px 10px 0 rgba(0, 0, 0, .18);
+            --h2-bg: #000000;
+            --h2-ink: #ffffff;
+            --btn-bg: #ffffff;
+            --btn-ink: #000000;
+            --price-bg: #000000;
+            --price-ink: #ffffff;
+            --cnt-bg: #000000;
+            --cnt-ink: #ffffff;
+            --link: #000000;
+            --maxw: 940px;
+        }
+
+        html[data-theme="idol"] {
+            --page-bg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .4  0 0 0 0 .35  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>"), #f1eee7;
+            --win: #f6f3ec;
+            --bev-out: #d5d9e1 #8f98a8 #8f98a8 #d5d9e1;
+            --bev-in: #8f98a8 #d5d9e1 #d5d9e1 #8f98a8;
+            --paper: #fbf9f4;
+            --soft: #eceff4;
+            --field: #ffffff;
+            --ink: #1c1c1c;
+            --muted: #5a6272;
+            --acc: #cf4a45;
+            --acc2: #7f93b5;
+            --acc3: #c9ced8;
+            --titlebar: #f1eee7;
+            --tb-ink: #1c1c1c;
+            --f-body: 'Inter', sans-serif;
+            --f-head: 'Inter', sans-serif;
+            --f-ui: 'Inter', sans-serif;
+            --f-title: 'Abril Fatface', serif;
+            --fs: 13px;
+            --tb-fs: 12px;
+            --btn-fs: 13px;
+            --h2-fs: 15px;
+            --r: 6px;
+            --rs: 999px;
+            --bw: 2px;
+            --tt: uppercase;
+            --shadow: 0 14px 40px rgba(60, 70, 90, .25);
+            --h2-bg: #6d7f9f;
+            --h2-ink: #ffffff;
+            --btn-bg: linear-gradient(135deg, #f4f6fa, #aab2c0 45%, #eef1f6 60%, #98a1b3);
+            --btn-ink: #1c1c1c;
+            --price-bg: #cf4a45;
+            --price-ink: #ffffff;
+            --cnt-bg: #6d7f9f;
+            --cnt-ink: #ffffff;
+            --link: #cf4a45;
+            --maxw: 900px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        [hidden] { display: none !important; }
 
         body {
-            background: linear-gradient(135deg, #ffe0ec 0%, #f2e2ff 55%, #e2e8ff 100%);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            font-family: 'Inter', sans-serif;
-            color: var(--text-color);
+            background: var(--page-bg);
+            background-attachment: fixed;
+            font-family: var(--f-body);
+            font-size: var(--fs);
+            color: var(--ink);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -35,428 +198,482 @@
             padding: 10px;
         }
 
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 15px;
-        }
+        a { color: var(--link); }
+        i.fa-solid, i.fa-brands, i.fa-regular { flex-shrink: 0; }
 
-        .win-window {
-            background: var(--win-gray);
-            border: 2px solid;
-            border-color: var(--win-border-light) var(--win-border-darkest) var(--win-border-darkest) var(--win-border-light);
-            box-shadow: 6px 6px 0px rgba(0,0,0,0.4);
-            width: 100%;
-            max-width: 420px;
+        /* ===== Destellos flotantes ===== */
+        .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .star {
+            position: absolute;
+            line-height: 1;
+            text-shadow: 0 0 6px currentColor;
+            animation: twinkle 2.4s infinite ease-in-out, drift 9s infinite ease-in-out;
         }
-
-        .win-titlebar {
-            background: linear-gradient(90deg, #ff2e88, #ff8c42);
-            color: white;
-            padding: 5px 8px;
-            font-weight: bold;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'VT323', monospace;
-            letter-spacing: 1px;
-        }
-
-        .win-titlebar-buttons button {
-            background: var(--win-gray);
-            border: 1px solid;
-            border-color: var(--win-border-light) var(--win-border-darkest) var(--win-border-darkest) var(--win-border-light);
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 12px;
-        }
-
-        .win-body {
-            padding: 20px;
-            background: #ffffff;
-            border: 2px solid;
-            border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
-            margin: 4px;
-            text-align: center;
-        }
-
-        .splash-title {
-            font-family: 'Special Elite', cursive;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .splash-desc {
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        /* ===== estrellas gyaru ===== */
-        .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-        .star { position: absolute; color: #fff; animation: twinkle 2.2s infinite ease-in-out;
-                text-shadow: 0 0 6px #fff, 0 0 12px currentColor; }
         @keyframes twinkle {
-            0%, 100% { opacity: 0.12; transform: scale(0.6) rotate(0deg); }
+            0%, 100% { opacity: .12; transform: scale(.6) rotate(0deg); }
             50% { opacity: 1; transform: scale(1.2) rotate(25deg); }
         }
-        .gh-btn {
-            background: linear-gradient(90deg, #ff2e88, #b04df0) !important;
-            color: #fff !important;
-            margin-top: 10px;
+        @keyframes drift {
+            0%, 100% { margin-top: 0; }
+            50% { margin-top: -14px; }
         }
-        .gh-btn:hover { filter: brightness(1.15); }
+        html[data-theme="office"] .star, html[data-theme="emo"] .star { text-shadow: none; }
 
+        /* ===== Splash ===== */
+        #splash-screen {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, .55);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; padding: 15px;
+        }
+        .win-window {
+            background: var(--win);
+            border: var(--bw) solid; border-color: var(--bev-out);
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            width: 100%; max-width: 420px;
+            overflow: hidden;
+        }
+        .win-body {
+            padding: 20px; background: var(--paper);
+            border: var(--bw) solid; border-color: var(--bev-in);
+            margin: 4px; text-align: center;
+            border-radius: calc(var(--r) / 2);
+        }
+        .splash-title { font-family: var(--f-title); font-size: 24px; margin-bottom: 10px; color: var(--acc); font-weight: 400; }
+        .splash-desc { line-height: 1.5; margin-bottom: 20px; color: var(--muted); }
+
+        /* ===== Barra de título ===== */
+        .win-titlebar {
+            background: var(--titlebar); color: var(--tb-ink);
+            padding: 5px 8px; font-weight: 600; font-size: var(--tb-fs);
+            display: flex; justify-content: space-between; align-items: center; gap: 8px;
+            font-family: var(--f-ui); letter-spacing: 1px;
+        }
+        .win-titlebar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tb-btns { display: flex; gap: 3px; }
+        .tb-btns button {
+            background: var(--btn-bg); color: var(--btn-ink);
+            border: 2px solid; border-color: var(--bev-out);
+            width: 22px; height: 18px; font-size: 9px; cursor: pointer;
+            display: grid; place-items: center; border-radius: var(--rs);
+        }
+
+        /* ===== Botones ===== */
         .retro-btn {
-            background: var(--win-gray);
-            border: 2px solid;
-            border-color: var(--win-border-light) var(--win-border-darkest) var(--win-border-darkest) var(--win-border-light);
-            padding: 8px 20px;
-            font-weight: bold;
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: inset 1px 1px 0px var(--win-border-light);
+            background: var(--btn-bg); color: var(--btn-ink);
+            border: var(--bw) solid; border-color: var(--bev-out);
+            border-radius: var(--rs);
+            padding: 8px 18px;
+            font-family: var(--f-ui); font-size: var(--btn-fs); font-weight: 700;
+            text-transform: var(--tt); letter-spacing: 1px;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 8px; justify-content: center;
         }
+        .retro-btn:hover { filter: brightness(1.07); }
+        .retro-btn:active { border-color: var(--bev-in); transform: translateY(1px); }
+        .retro-btn:disabled { opacity: .6; cursor: wait; }
 
-        .retro-btn:active {
-            border-color: var(--win-border-darkest) var(--win-border-light) var(--win-border-light) var(--win-border-darkest);
-        }
-
-        #main-content {
-            display: none;
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 900px;
-        }
-
+        /* ===== Contenedor principal ===== */
+        #main-content { display: none; position: relative; z-index: 1; width: 100%; max-width: var(--maxw); }
         .main-container {
-            background: var(--win-gray);
-            border: 2px solid;
-            border-color: var(--win-border-light) var(--win-border-darkest) var(--win-border-darkest) var(--win-border-light);
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+            background: var(--win);
+            border: var(--bw) solid; border-color: var(--bev-out);
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
-
-        .gyaru-band {
+        .stripe-band {
             height: 10px;
             background: repeating-linear-gradient(45deg, #ff2e88 0 22px, #ffd23f 22px 44px, #b04df0 44px 66px, #00e5c7 66px 88px);
             border-bottom: 2px solid #000;
         }
-        .menu-bar {
-            background: var(--win-gray);
-            padding: 3px 6px;
-            font-size: 12px;
-            border-bottom: 1px solid var(--win-border-dark);
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+        .idol-top { display: none; }
 
-        .menu-item {
-            cursor: pointer;
-            padding: 2px 5px;
+        .menu-bar {
+            background: var(--win);
+            padding: 5px 8px; border-bottom: 1px solid rgba(0, 0, 0, .35);
+            display: flex; gap: 6px 14px; flex-wrap: wrap; align-items: center;
+            font-family: var(--f-ui); font-size: calc(var(--fs) - 1px); font-weight: 500;
         }
-        .menu-item:hover {
-            background: #ff2e88;
-            color: white;
+        .nav-btn {
+            cursor: pointer; padding: 2px 6px; color: var(--ink); text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px; border-radius: var(--rs);
+            text-transform: var(--tt);
         }
+        .nav-btn:hover { background: var(--acc); color: #fff; }
+
+        .theme-controls { margin-left: auto; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        .theme-controls label { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; }
+        .theme-controls select, #lang-select {
+            font: inherit; font-size: 12px; padding: 2px 4px;
+            background: var(--field); color: var(--ink);
+            border: 2px solid; border-color: var(--bev-in); border-radius: var(--rs);
+        }
+        .set-default { padding: 3px 10px; font-size: 14px; }
+        .set-default.is-set { filter: saturate(.4); }
 
         .visitor-counter-bar {
-            background: #000;
-            color: #ff6fb5;
-            font-family: 'VT323', monospace;
-            font-size: 16px;
-            padding: 5px 12px;
-            border-bottom: 1px solid var(--win-border-dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #000; color: var(--cnt-ink);
+            font-family: 'VT323', monospace; font-size: 16px;
+            padding: 5px 12px; border-bottom: 1px solid rgba(0, 0, 0, .5);
+            display: flex; justify-content: space-between; align-items: center; gap: 8px;
         }
-
         .counter-digits {
-            background: #111;
-            border: 1px inset #444;
-            padding: 1px 8px;
-            letter-spacing: 2px;
-            color: #ff6fb5;
-            font-weight: bold;
-            text-shadow: 0 0 6px rgba(255,111,181,0.8);
+            background: var(--cnt-bg); border: 1px inset #444;
+            padding: 1px 8px; letter-spacing: 2px; color: var(--cnt-ink);
+            font-family: 'VT323', monospace; font-weight: bold;
+            text-shadow: 0 0 6px currentColor;
         }
 
+        /* ===== Layout ===== */
+        .layout { display: block; }
+        .sidebar { display: none; }
         .main-content-body {
-            padding: 15px;
-            background: #fdfdfd;
-            border: 2px solid;
-            border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
-            margin: 4px;
-            max-height: 82vh;
-            overflow-y: auto;
+            padding: 15px; background: var(--paper);
+            border: var(--bw) solid; border-color: var(--bev-in);
+            margin: 4px; max-height: 80vh; overflow-y: auto; overflow-x: hidden;
+            border-radius: calc(var(--r) / 2);
         }
 
+        /* ===== Banner ===== */
         .banner-box {
-            border: 2px dashed #ff2e88;
-            padding: 15px;
-            background: #ffe3f1;
-            margin-bottom: 20px;
+            position: relative;
+            border: 2px dashed var(--acc); padding: 15px;
+            background: var(--soft); margin-bottom: 20px;
+            border-radius: calc(var(--r) / 2);
+            overflow: hidden;
         }
-
         .banner-box h1 {
-            font-family: 'Special Elite', cursive;
-            font-size: clamp(18px, 4vw, 24px);
-            margin-bottom: 8px;
-            color: #111;
+            font-family: var(--f-title); font-weight: 400;
+            font-size: clamp(22px, 5vw, 32px); margin-bottom: 8px; color: var(--acc);
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap; line-height: 1.15;
         }
+        .banner-sub { line-height: 1.5; color: var(--ink); position: relative; z-index: 1; }
+        .banner-actions { margin-top: 12px; position: relative; z-index: 1; }
+        .gh-btn { background: linear-gradient(90deg, var(--acc), var(--acc2)) !important; color: #fff !important; }
+        .deco-gyaru, .deco-office, .deco-emo, .deco-idol { display: none; }
 
-        .banner-sub {
-            font-size: 13px;
-            line-height: 1.5;
-            color: #333;
-        }
-
+        /* ===== Secciones ===== */
         .section-box {
-            border: 2px solid;
-            border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
-            background: #ffffff;
-            padding: 15px;
-            margin-bottom: 20px;
+            position: relative;
+            border: var(--bw) solid; border-color: var(--bev-in);
+            border-radius: var(--r);
+            background: var(--paper);
+            padding: 15px; margin-bottom: 20px;
         }
-
         .section-box h2 {
-            font-family: 'VT323', monospace;
-            font-size: 20px;
-            background: linear-gradient(90deg, #ff2e88, #b04df0);
-            color: #fff;
-            padding: 4px 8px;
-            margin: -15px -15px 12px -15px;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-family: var(--f-head); font-size: var(--h2-fs); font-weight: 600;
+            background: var(--h2-bg); color: var(--h2-ink);
+            padding: 5px 10px; margin: -15px -15px 12px -15px;
+            border-radius: calc(var(--r) - var(--bw)) calc(var(--r) - var(--bw)) 0 0;
+            letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
         }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .services-grid, .gallery-grid {
-                grid-template-columns: 1fr !important;
-            }
-        }
-
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .service-card {
-            border: 1px solid #808080;
-            background: #f5f5f5;
-            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, .35); background: var(--soft);
+            padding: 12px; border-radius: calc(var(--r) / 2);
+            display: flex; flex-direction: column; gap: 6px;
         }
-
-        .service-card h3 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .service-card p {
-            font-size: 12px;
-            color: #444;
-            line-height: 1.4;
-            margin-bottom: 8px;
-        }
-
+        .service-card h3 { font-size: calc(var(--fs) + 1px); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .service-card h3 i { color: var(--acc); }
+        .service-card p { color: var(--muted); line-height: 1.4; flex: 1; }
         .price-badge {
-            display: inline-block;
-            background: linear-gradient(90deg,#ff2e88,#ff8c42);
-            color: #fff;
-            font-family: 'VT323', monospace;
-            font-size: 15px;
-            padding: 1px 6px;
+            align-self: flex-start;
+            background: var(--price-bg); color: var(--price-ink);
+            font-family: 'VT323', monospace; font-size: 17px; padding: 1px 9px;
+            border-radius: var(--rs);
         }
 
         .community-feed {
-            background: #f0f4f8;
-            border: 1px inset #808080;
-            padding: 12px;
-            max-height: 250px;
-            overflow-y: auto;
+            background: var(--soft); border: 1px inset rgba(0, 0, 0, .4);
+            padding: 12px; max-height: 260px; overflow-y: auto; border-radius: calc(var(--r) / 2);
         }
-
-        .feed-item {
-            background: #ffffff;
-            border: 1px solid #d0d0d0;
-            padding: 10px;
-            margin-bottom: 10px;
-            font-size: 12px;
-        }
-
+        .faq-intro { color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+        .feed-item { background: var(--paper); border: 1px solid rgba(0, 0, 0, .25); padding: 10px; margin-bottom: 10px; }
+        .feed-item:last-child { margin-bottom: 0; }
         .feed-header {
-            display: flex;
-            justify-content: space-between;
-            font-family: 'VT323', monospace;
-            font-size: 14px;
-            color: #000080;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 3px;
-            margin-bottom: 5px;
+            display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+            font-family: 'VT323', monospace; font-size: 15px; color: var(--acc2);
+            border-bottom: 1px dashed rgba(0, 0, 0, .3); padding-bottom: 3px; margin-bottom: 5px;
         }
+        .feed-q { font-weight: 700; margin-bottom: 4px; }
+        .feed-a { color: var(--muted); background: var(--soft); padding: 6px; border-left: 3px solid var(--acc); font-style: italic; }
 
-        .feed-q {
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 4px;
-        }
-
-        .feed-a {
-            color: #444;
-            background: #fffdf0;
-            padding: 6px;
-            border-left: 3px solid #ff2e88;
-            font-style: italic;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .polaroid-frame {
-            background: #fff;
-            border: 1px solid #777;
-            padding: 8px 8px 25px 8px;
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
-            text-align: center;
+            position: relative; background: #fff; border: 1px solid #777;
+            padding: 8px 8px 12px; box-shadow: 3px 3px 0 rgba(0, 0, 0, .15);
+            text-align: center; color: #222; display: flex; flex-direction: column; gap: 4px;
         }
+        .polaroid-img { width: 100%; height: 125px; object-fit: cover; object-position: top center; border: 1px inset #555; display: block; background: var(--soft); }
+        .polaroid-link { color: var(--link); font-weight: 700; text-decoration: none; font-size: 12px; }
+        .gallery-note { font-size: 12px; color: var(--muted); margin-top: 8px; font-style: italic; }
 
-        .polaroid-screen {
-            background: #2a0a1e;
-            color: #ff9de2;
-            font-family: 'VT323', monospace;
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            margin-bottom: 6px;
-            border: 1px inset #555;
-        }
+        .table-responsive { overflow-x: auto; }
+        .retro-table { width: 100%; border-collapse: collapse; }
+        .retro-table th, .retro-table td { border: 1px solid rgba(0, 0, 0, .4); padding: 6px 10px; text-align: left; }
+        .retro-table th { background: var(--win); }
 
-        .polaroid-img {
-            width: 100%;
-            height: 115px;
-            object-fit: cover;
-            object-position: top center;
-            border: 1px inset #555;
-            margin-bottom: 6px;
-            display: block;
-        }
-        .polaroid-link { color: #ff2e88; font-weight: bold; text-decoration: none; font-size: 10px; }
-        .polaroid-frame span {
-            font-size: 11px;
-            font-family: 'Special Elite', cursive;
-            color: #333;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .retro-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-
-        .retro-table th, .retro-table td {
-            border: 1px solid #808080;
-            padding: 6px 10px;
-            text-align: left;
-        }
-
-        .retro-table th {
-            background: var(--win-gray);
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
+        /* ===== Formulario ===== */
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 4px; }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 2px solid;
-            border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
-            background: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 12px;
+            width: 100%; padding: 8px;
+            border: 2px solid; border-color: var(--bev-in);
+            background: var(--field); color: var(--ink);
+            font-family: var(--f-body); font-size: var(--fs); border-radius: var(--rs);
+        }
+        .form-group textarea { height: 90px; resize: vertical; border-radius: calc(var(--r) / 2); }
+        .form-group input:disabled, .form-group select:disabled { background: #d8d8d8; color: #888; cursor: not-allowed; }
+        .free-note { font-size: 13px; color: var(--acc2); margin-top: 4px; display: flex; gap: 6px; align-items: flex-start; }
+        .submit-btn { width: 100%; padding: 10px; font-size: calc(var(--btn-fs) + 3px); }
+        #form-status { text-align: center; margin-top: 10px; color: var(--acc); font-weight: 600; }
+
+        /* ===== Panel post-formulario ===== */
+        .post-panel {
+            border: var(--bw) solid; border-color: var(--bev-out);
+            background: var(--win); border-radius: var(--r); overflow: hidden;
+        }
+        .post-titlebar {
+            background: var(--titlebar); color: var(--tb-ink); padding: 6px 10px;
+            font-family: var(--f-ui); font-weight: 700; display: flex; align-items: center; gap: 8px;
+        }
+        .post-body { padding: 14px; background: var(--paper); margin: 4px; border: var(--bw) solid; border-color: var(--bev-in); border-radius: calc(var(--r) / 2); }
+        .post-ok { font-weight: 700; color: var(--acc); margin-bottom: 10px; display: flex; gap: 8px; align-items: flex-start; }
+        .post-intro { font-weight: 700; margin-bottom: 6px; }
+        .post-list { list-style: none; margin-bottom: 12px; }
+        .post-list li { display: flex; gap: 8px; align-items: flex-start; padding: 4px 0; border-bottom: 1px dashed rgba(0, 0, 0, .2); line-height: 1.35; }
+        .post-list li i { color: var(--acc); width: 18px; text-align: center; margin-top: 2px; }
+        .transparent-note {
+            background: var(--soft); border-left: 4px solid var(--acc); padding: 10px;
+            font-style: italic; margin-bottom: 14px; display: flex; gap: 8px; align-items: flex-start; line-height: 1.4;
+        }
+        .post-q { font-weight: 700; margin-bottom: 8px; }
+        .post-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .post-answer { margin-top: 12px; font-weight: 600; color: var(--acc); display: flex; gap: 8px; align-items: flex-start; line-height: 1.4; }
+        #again-btn { margin-top: 12px; }
+
+        .footer-note { text-align: center; font-family: var(--f-ui); color: var(--muted); margin-top: 15px; }
+
+        .toast {
+            position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+            background: #000; color: #fff; padding: 8px 16px; z-index: 2000;
+            font-family: var(--f-ui); display: flex; gap: 8px; align-items: center;
+            border: 2px solid #fff; border-radius: var(--rs); box-shadow: 0 6px 20px rgba(0, 0, 0, .4);
         }
 
-        .form-group textarea {
-            height: 80px;
-            resize: vertical;
-        }
+        /* =====================================================
+           TEMA 1: GYARU / KAWAII
+           ===================================================== */
+        html[data-theme="gyaru"] .deco-gyaru { display: flex; gap: 10px; color: var(--acc); font-size: 16px; margin-bottom: 8px; }
+        html[data-theme="gyaru"] .deco-gyaru i:nth-child(3n+2) { color: var(--acc2); }
+        html[data-theme="gyaru"] .deco-gyaru i:nth-child(3n) { color: #f0b400; }
+        html[data-theme="gyaru"] .banner-box { background: linear-gradient(135deg, #ffe3f1, #f3e4ff); border-style: dotted; border-width: 3px; border-radius: 22px; }
+        html[data-theme="gyaru"] .banner-box h1 { text-shadow: 2px 2px 0 #fff, 0 0 14px rgba(255, 46, 136, .5); }
+        html[data-theme="gyaru"] .section-box { box-shadow: 0 4px 0 rgba(255, 46, 136, .2); overflow: hidden; }
+        html[data-theme="gyaru"] .service-card { border: 2px dashed #ff9ccd; background: #fff; border-radius: 16px; }
+        html[data-theme="gyaru"] .main-container { background: linear-gradient(180deg, #ffd0e8, #ecd4ff); }
+        html[data-theme="gyaru"] .price-badge { border-radius: 999px; padding: 1px 12px; }
 
-        .submit-btn {
-            background: var(--win-gray);
-            border: 2px solid;
-            border-color: var(--win-border-light) var(--win-border-darkest) var(--win-border-darkest) var(--win-border-light);
-            padding: 10px;
-            font-weight: bold;
-            font-family: 'VT323', monospace;
-            font-size: 20px;
-            cursor: pointer;
-            width: 100%;
-            letter-spacing: 1px;
+        /* =====================================================
+           TEMA 2: OFICINA CLASICA (web retro años 2000)
+           ===================================================== */
+        html[data-theme="office"] .stripe-band { display: none; }
+        html[data-theme="office"] .visitor-counter-bar { display: none; }
+        html[data-theme="office"] .layout { display: grid; grid-template-columns: 178px 1fr; gap: 0; align-items: start; }
+        html[data-theme="office"] .sidebar { display: block; padding: 8px 4px 8px 8px; }
+        html[data-theme="office"] .main-content-body { margin-left: 0; }
+        html[data-theme="office"] .sb-box {
+            background: var(--win); border: 2px solid; border-color: var(--bev-in);
+            padding: 6px; margin-bottom: 10px; text-align: center;
         }
-
-        .submit-btn:active {
-            border-color: var(--win-border-darkest) var(--win-border-light) var(--win-border-light) var(--win-border-darkest);
+        html[data-theme="office"] .sb-title {
+            font-family: 'UnifrakturCook', serif; font-size: 20px; margin-bottom: 6px;
+            display: flex; align-items: center; justify-content: center; gap: 6px; color: #000;
         }
-
-        #form-status {
-            font-family: 'VT323', monospace;
-            font-size: 16px;
-            text-align: center;
-            margin-top: 10px;
-            color: #ff2e88;
+        html[data-theme="office"] .sb-title i { font-size: 11px; }
+        html[data-theme="office"] .sidebar .counter-digits { display: block; font-size: 22px; text-align: center; }
+        html[data-theme="office"] .sidebar .nav-btn {
+            display: block; width: 100%; text-align: center; margin-bottom: 4px;
+            background: var(--win); border: 2px solid; border-color: var(--bev-out);
+            padding: 3px 4px; font-size: 18px;
         }
+        html[data-theme="office"] .sidebar .nav-btn:hover { background: #000; color: #fff; }
+        html[data-theme="office"] .sb-news { font-size: 15px; text-align: left; line-height: 1.25; }
+        html[data-theme="office"] .sb-badges { display: grid; gap: 4px; }
+        html[data-theme="office"] .sb-badge {
+            font-family: 'VT323', monospace; font-size: 14px; background: #000; color: #d8d8d8;
+            border: 2px outset #777; padding: 3px; text-align: center; letter-spacing: 1px;
+        }
+        html[data-theme="office"] .menu-bar .nav-btn { display: none; }
+        html[data-theme="office"] .menu-bar { font-size: 16px; }
+        html[data-theme="office"] .section-box h2 { justify-content: center; font-size: 24px; letter-spacing: 0; text-transform: none; }
+        html[data-theme="office"] .banner-box { background: #dcdcdc; border: 2px inset #888; border-style: inset; }
+        html[data-theme="office"] .banner-box h1 { font-size: clamp(30px, 6vw, 46px); color: #111; display: block; }
+        html[data-theme="office"] .banner-box h1 i { font-size: .5em; vertical-align: middle; }
+        html[data-theme="office"] .deco-office { display: flex; gap: 14px; flex-wrap: wrap; font-size: 15px; color: #444; margin-bottom: 8px; border-bottom: 1px dashed #777; padding-bottom: 6px; }
+        html[data-theme="office"] .deco-office span { display: inline-flex; gap: 6px; align-items: center; }
+        html[data-theme="office"] .polaroid-img, html[data-theme="office"] .banner-box img { filter: grayscale(.9) contrast(1.05); }
+        html[data-theme="office"] .service-card, html[data-theme="office"] .feed-item { border: 2px solid; border-color: var(--bev-in); background: var(--soft); }
+        html[data-theme="office"] .price-badge { border: 1px solid #fff; }
+        html[data-theme="office"] .nav-btn:hover { background: #000; }
+        html[data-theme="office"] .retro-table th { font-family: 'UnifrakturCook', serif; font-size: 18px; font-weight: 700; }
+        html[data-theme="office"] .feed-header { font-size: 16px; }
+        html[data-theme="office"] .splash-title { color: #000; }
 
-        .footer-note {
-            text-align: center;
-            font-family: 'VT323', monospace;
-            font-size: 16px;
-            color: #555;
-            margin-top: 15px;
+        /* =====================================================
+           TEMA 3: EMO / Y2K (tech-wear, glitch, collage)
+           ===================================================== */
+        html[data-theme="emo"] .stripe-band { background: repeating-linear-gradient(90deg, #000 0 4px, #fff 4px 8px, #777 8px 12px); height: 8px; border-bottom: 1px solid #000; }
+        html[data-theme="emo"] .win-titlebar { text-transform: uppercase; }
+        html[data-theme="emo"] .menu-bar { background: #fff; border-bottom: 1px solid #000; text-transform: uppercase; font-size: 11px; }
+        html[data-theme="emo"] .visitor-counter-bar { background: #fff; color: #000; border-bottom: 1px solid #000; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; }
+        html[data-theme="emo"] .counter-digits { text-shadow: none; border: 1px solid #000; }
+        html[data-theme="emo"] .main-container { background: #fff; }
+        html[data-theme="emo"] .main-content-body { margin: 0; border: 0; border-top: 1px solid #000; padding: 20px 18px; }
+        html[data-theme="emo"] .banner-box {
+            border: 1px solid #000; background: #fff;
+            padding: 22px 16px 16px; margin-bottom: 36px; overflow: visible;
+        }
+        html[data-theme="emo"] .banner-box h1 {
+            display: block; font-size: clamp(44px, 11vw, 92px); line-height: .85; letter-spacing: -2px;
+            color: #111; mix-blend-mode: multiply; image-rendering: pixelated;
+            text-shadow: 3px 0 rgba(0, 0, 0, .28), -3px 0 rgba(130, 130, 130, .5);
+            animation: glitch 5s infinite steps(1);
+        }
+        html[data-theme="emo"] .banner-box h1 i { font-size: .3em; vertical-align: top; margin-right: 6px; }
+        @keyframes glitch {
+            0%, 91%, 100% { transform: none; }
+            92% { transform: translate(-4px, 1px) skewX(5deg); clip-path: inset(0 0 40% 0); }
+            94% { transform: translate(4px, -1px); clip-path: inset(30% 0 0 0); }
+            96% { transform: translate(-2px, 0) skewX(-6deg); clip-path: none; }
+        }
+        html[data-theme="emo"] .deco-emo { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; position: relative; z-index: 1; }
+        html[data-theme="emo"] .deco-emo .cap { font-size: 10px; color: #fff; background: #000; padding: 2px 6px; text-transform: uppercase; letter-spacing: 1px; }
+        html[data-theme="emo"] .deco-emo .cap.alt { background: #fff; color: #000; border: 1px solid #000; transform: rotate(-1.5deg); }
+        html[data-theme="emo"] .banner-sub { max-width: 560px; border-left: 3px solid #000; padding-left: 10px; background: rgba(255, 255, 255, .8); }
+        html[data-theme="emo"] .section-box {
+            border: 1px solid #000; background: #fff; margin-top: 34px; margin-bottom: 36px;
+            clip-path: polygon(0 6px, 6px 6px, 6px 0, calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px));
+            clip-path: none;
+        }
+        html[data-theme="emo"] .section-box h2 {
+            display: inline-flex; margin: -28px 0 14px -22px; transform: rotate(-1.4deg);
+            border-radius: 0; font-size: 20px; text-transform: uppercase; border: 1px solid #fff; outline: 1px solid #000;
+        }
+        html[data-theme="emo"] .section-box::after, html[data-theme="emo"] .polaroid-frame::after {
+            content: ""; position: absolute; inset: -5px; border: 1px solid #4a8fd8; pointer-events: none;
+            background:
+                linear-gradient(#4a8fd8, #4a8fd8) 0 0/7px 7px no-repeat,
+                linear-gradient(#4a8fd8, #4a8fd8) 50% 0/7px 7px no-repeat,
+                linear-gradient(#4a8fd8, #4a8fd8) 100% 0/7px 7px no-repeat,
+                linear-gradient(#4a8fd8, #4a8fd8) 0 50%/7px 7px no-repeat,
+                linear-gradient(#4a8fd8, #4a8fd8) 100% 50%/7px 7px no-repeat,
+                linear-gradient(#4a8fd8, #4a8fd8) 0 100%/7px 7px no-repeat,
+                linear-gradient(#4a8fd8, #4a8fd8) 50% 100%/7px 7px no-repeat,
+                linear-gradient(#4a8fd8, #4a8fd8) 100% 100%/7px 7px no-repeat;
+        }
+        html[data-theme="emo"] .service-card { background: #f1f1ee; border: 1px solid #000; }
+        html[data-theme="emo"] .service-card:nth-child(even) { transform: translateY(6px); background: #e1e1de; }
+        html[data-theme="emo"] .service-card h3 { font-family: 'Pixelify Sans', monospace; text-transform: uppercase; }
+        html[data-theme="emo"] .price-badge { border-radius: 0; font-family: 'Pixelify Sans', monospace; font-size: 14px; }
+        html[data-theme="emo"] .polaroid-img, html[data-theme="emo"] .banner-box img { filter: grayscale(1) contrast(1.35); image-rendering: pixelated; }
+        html[data-theme="emo"] .polaroid-frame { border: 1px solid #000; margin: 6px; }
+        html[data-theme="emo"] .feed-a { border-left: 3px solid #000; background: #ececea; }
+        html[data-theme="emo"] .feed-header { color: #000; font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; }
+        html[data-theme="emo"] .retro-table th { background: #000; color: #fff; }
+        html[data-theme="emo"] .free-note { color: #000; }
+        html[data-theme="emo"] .footer-note::after {
+            content: "2026"; display: inline-block; margin-left: 12px; background: #000; color: #fff;
+            font-family: 'Pixelify Sans', monospace; padding: 2px 8px; letter-spacing: 2px;
+        }
+        html[data-theme="emo"] .post-panel { border-color: #000; }
+        html[data-theme="emo"] .toast { background: #fff; color: #000; border-color: #000; }
+        html[data-theme="emo"] .splash-title { color: #000; }
+        html[data-theme="emo"] .win-body { border-color: #000; }
+
+        /* =====================================================
+           TEMA 4: IDOL STAGE (revista de idols coreanos)
+           ===================================================== */
+        html[data-theme="idol"] .stripe-band { display: none; }
+        html[data-theme="idol"] .win-titlebar { display: none; }
+        html[data-theme="idol"] .idol-top {
+            display: block; text-align: center; padding: 8px 10px 6px; font-size: 11px; letter-spacing: 1.5px;
+            font-weight: 600; text-transform: uppercase; border-bottom: 1px solid #1c1c1c; background: var(--win);
+        }
+        html[data-theme="idol"] .menu-bar { background: var(--win); text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+        html[data-theme="idol"] .nav-btn:hover { background: var(--acc); }
+        html[data-theme="idol"] .visitor-counter-bar { background: #6d7f9f; color: #fff; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+        html[data-theme="idol"] .counter-digits { border: 0; background: rgba(255, 255, 255, .2); text-shadow: none; }
+        html[data-theme="idol"] .main-container { background: #f1eee7; }
+        html[data-theme="idol"] .main-content-body { background: transparent; border: 0; margin: 0; padding: 18px; counter-reset: pg; }
+        html[data-theme="idol"] .banner-box {
+            border: 0; background: transparent; padding: 10px 70px 24px 4px; overflow: visible; min-height: 220px;
+        }
+        html[data-theme="idol"] .banner-box h1 {
+            display: block; font-size: clamp(54px, 12vw, 104px); line-height: .88; color: var(--acc); letter-spacing: -1px; position: relative; z-index: 1;
+        }
+        html[data-theme="idol"] .banner-box h1 i { display: none; }
+        html[data-theme="idol"] .banner-sub { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; color: var(--acc2); font-size: 15px; max-width: 460px; }
+        html[data-theme="idol"] .deco-idol { display: block; position: absolute; inset: 0; pointer-events: none; }
+        html[data-theme="idol"] .big-star { position: absolute; background: var(--acc); clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%); }
+        html[data-theme="idol"] .big-star.s1 { width: 70px; height: 70px; right: 90px; top: 8px; }
+        html[data-theme="idol"] .big-star.s2 { width: 44px; height: 44px; right: 20px; bottom: 30px; background: var(--acc2); }
+        html[data-theme="idol"] .big-star.s3 { width: 90px; height: 90px; right: 150px; bottom: -10px; opacity: .85; }
+        html[data-theme="idol"] .vol {
+            position: absolute; right: 6px; top: 8px; writing-mode: vertical-rl; color: var(--acc);
+            font-family: 'Abril Fatface', serif; font-size: 34px; letter-spacing: 2px; line-height: 1;
+        }
+        html[data-theme="idol"] .barcode {
+            position: absolute; left: 0; bottom: 0; width: 70px; height: 34px; background: #fff; padding: 4px;
+            background-image: repeating-linear-gradient(90deg, #000 0 2px, #fff 2px 4px, #000 4px 5px, #fff 5px 8px);
+            background-clip: content-box; border: 4px solid #fff; opacity: .9;
+        }
+        html[data-theme="idol"] .section-box {
+            border: 0; background: transparent; padding: 0; margin-bottom: 26px; counter-increment: pg;
+        }
+        html[data-theme="idol"] .section-box h2 {
+            display: inline-flex; margin: 0 0 12px; border-radius: 999px; padding: 8px 22px;
+            text-transform: uppercase; font-weight: 800; font-size: 15px; letter-spacing: 1.5px;
+        }
+        html[data-theme="idol"] .section-box h2::before { content: "P." counter(pg); font-family: 'Abril Fatface', serif; letter-spacing: 1px; opacity: .85; margin-right: 4px; }
+        html[data-theme="idol"] .section-box > *:not(h2) { position: relative; }
+        html[data-theme="idol"] .service-card { background: #fff; border: 1px solid #c9ced8; border-radius: 14px; box-shadow: 0 6px 16px rgba(80, 90, 110, .12); }
+        html[data-theme="idol"] .service-card h3 { font-family: 'Abril Fatface', serif; font-weight: 400; color: var(--acc); font-size: 18px; }
+        html[data-theme="idol"] .price-badge { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; padding: 3px 12px; letter-spacing: .5px; }
+        html[data-theme="idol"] .community-feed { background: rgba(255, 255, 255, .7); border: 1px solid #c9ced8; border-radius: 14px; }
+        html[data-theme="idol"] .feed-header { font-family: 'Inter', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--acc2); }
+        html[data-theme="idol"] .feed-a { font-family: 'Playfair Display', serif; font-weight: 700; border-left-color: var(--acc); }
+        html[data-theme="idol"] .polaroid-frame { border: 0; border-radius: 6px; box-shadow: 0 10px 22px rgba(80, 90, 110, .25); background: linear-gradient(135deg, #fff, #dfe3ea 60%, #fff); }
+        html[data-theme="idol"] .polaroid-img { filter: contrast(1.05) saturate(.9); border: 0; }
+        html[data-theme="idol"] .retro-table { background: #fff; border-radius: 12px; overflow: hidden; }
+        html[data-theme="idol"] .retro-table th { background: #6d7f9f; color: #fff; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
+        html[data-theme="idol"] .retro-table td, html[data-theme="idol"] .retro-table th { border-color: #c9ced8; }
+        html[data-theme="idol"] #contact-section { background: #fff; padding: 18px; border-radius: 18px; border: 1px solid #c9ced8; }
+        html[data-theme="idol"] .form-group input, html[data-theme="idol"] .form-group select { border-radius: 999px; padding: 9px 14px; border: 1px solid #98a1b3; }
+        html[data-theme="idol"] .form-group textarea { border-radius: 16px; border: 1px solid #98a1b3; }
+        html[data-theme="idol"] .post-panel { border: 1px solid #c9ced8; border-radius: 18px; }
+        html[data-theme="idol"] .post-titlebar { background: #6d7f9f; color: #fff; text-transform: uppercase; letter-spacing: 1px; font-size: 12px; }
+        html[data-theme="idol"] .post-body { border: 0; background: #fff; }
+        html[data-theme="idol"] .footer-note { font-family: 'Playfair Display', serif; font-style: italic; color: var(--acc2); }
+        html[data-theme="idol"] .splash-title { color: var(--acc); font-size: 30px; }
+        html[data-theme="idol"] .toast { background: var(--acc); border-color: #fff; }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .services-grid, .gallery-grid { grid-template-columns: 1fr !important; }
+            html[data-theme="office"] .layout { grid-template-columns: 1fr; }
+            html[data-theme="office"] .sidebar { padding: 8px 8px 0; }
+            html[data-theme="office"] .sidebar .sb-box:not(.nav-box) { display: none; }
+            .theme-controls { margin-left: 0; width: 100%; }
+            html[data-theme="idol"] .banner-box { padding-right: 56px; }
+            .main-content-body { max-height: 76vh; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .star, html[data-theme="emo"] .banner-box h1 { animation: none !important; }
         }
     </style>
-<base target="_blank">
 </head>
 <body>
 
@@ -464,323 +681,775 @@
         <div class="win-window">
             <div class="win-titlebar">
                 <span>Acceso_Sistema.exe</span>
-                <div class="win-titlebar-buttons"><button onclick="enterSite()">X</button></div>
+                <div class="tb-btns"><button type="button" onclick="enterSite()" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
             </div>
             <div class="win-body">
                 <h2 class="splash-title">Oficina de Encargos y Otros</h2>
-                <p class="splash-desc">
-                    Espacio operativo para jóvenes misios. Soluciones ingeniosas, desarrollo web, detalles digitales y asesorías de investigación afectiva.
-                </p>
-                <button class="retro-btn" onclick="enterSite()">[ ENTRAR AL SITIO ]</button>
+                <p class="splash-desc" data-i18n="sp_desc">Espacio operativo para jóvenes misios. Soluciones ingeniosas, desarrollo web, detalles digitales y asesorías de investigación afectiva.</p>
+                <button class="retro-btn" type="button" onclick="enterSite()"><i class="fa-solid fa-door-open"></i> <span data-i18n="sp_btn">ENTRAR AL SITIO</span></button>
             </div>
         </div>
     </div>
 
     <div id="main-content">
         <div class="main-container">
+            <div class="idol-top" data-i18n="idol_top">&copy; OFICINA DE ENCARGOS Y OTROS. EDICIÓN OCTUBRE 2026, VOLUMEN 1.</div>
+
             <div class="win-titlebar">
-                <span>oficina_principal.html — Oficina de Encargos y Otros</span>
-                <div class="win-titlebar-buttons">
-                    <button title="Minimizar">_</button>
-                    <button title="Maximizar">□</button>
-                    <button title="Cerrar" onclick="alert('Sistema protegido.')">X</button>
+                <span>oficina_principal.html &mdash; Oficina de Encargos y Otros</span>
+                <div class="tb-btns">
+                    <button type="button" title="Minimizar"><i class="fa-solid fa-minus"></i></button>
+                    <button type="button" title="Maximizar"><i class="fa-regular fa-square"></i></button>
+                    <button type="button" title="Cerrar" onclick="alert('Sistema protegido.')"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
 
-            <div class="gyaru-band"></div>
+            <div class="stripe-band"></div>
+
             <div class="menu-bar">
-                <span class="menu-item" onclick="location.reload()"><i class="fa-solid fa-house"></i> Inicio</span>
-                <span class="menu-item" onclick="document.getElementById('services-section').scrollIntoView({behavior: 'smooth'})"><i class="fa-solid fa-box"></i> Servicios</span>
-                <span class="menu-item" onclick="document.getElementById('community-section').scrollIntoView({behavior: 'smooth'})"><i class="fa-solid fa-comments"></i> Buzón</span>
-                <span class="menu-item" onclick="document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'})"><i class="fa-solid fa-envelope"></i> Enviar Encargo</span>
+                <a href="#" class="nav-btn" data-go="top"><i class="fa-solid fa-house"></i> <span data-i18n="m_home">Inicio</span></a>
+                <a href="#" class="nav-btn" data-go="services-section"><i class="fa-solid fa-box"></i> <span data-i18n="m_serv">Servicios</span></a>
+                <a href="#" class="nav-btn" data-go="community-section"><i class="fa-solid fa-comments"></i> <span data-i18n="m_buz">Buzón</span></a>
+                <a href="#" class="nav-btn" data-go="contact-section"><i class="fa-solid fa-envelope"></i> <span data-i18n="m_env">Enviar Encargo</span></a>
+
+                <div class="theme-controls">
+                    <label for="theme-select"><i class="fa-solid fa-palette"></i> <span data-i18n="th_label">Estética</span></label>
+                    <select id="theme-select">
+                        <option value="gyaru" data-i18n="th_gyaru">Gyaru / Kawaii</option>
+                        <option value="office" data-i18n="th_office">Oficina Clásica</option>
+                        <option value="emo" data-i18n="th_emo">Emo / Y2K</option>
+                        <option value="idol" data-i18n="th_idol">Idol Stage</option>
+                    </select>
+                    <button type="button" class="retro-btn set-default" id="set-default-btn"><i class="fa-solid fa-thumbtack"></i> <span data-i18n="th_set">Predeterminar</span></button>
+                    <select id="lang-select" aria-label="Idioma">
+                        <option value="es">ES</option><option value="en">EN</option><option value="zh">中文</option><option value="ko">한국어</option><option value="pt">PT</option><option value="ru">RU</option>
+                    </select>
+                </div>
             </div>
 
             <div class="visitor-counter-bar">
-                <div><i class="fa-solid fa-eye"></i> VISITANTES TOTALES:</div>
-                <div class="counter-digits" id="visitor-count">000142</div>
+                <div><i class="fa-solid fa-eye"></i> <span data-i18n="vis">VISITANTES TOTALES:</span></div>
+                <div class="counter-digits js-count">000142</div>
             </div>
 
-            <div class="main-content-body">
-
-                <div class="banner-box">
-                    <h1><i class="fa-solid fa-wand-magic-sparkles"></i> ✨ OFICINA DE ENCARGOS Y OTROS ✨</h1>
-                    <div class="banner-sub">
-                        Soluciones ingeniosas y detalles personalizados desde S/. 5. Gestión directa y discreta para apuros operativos.<br><br>
-                        La Oficina la atiende una sola persona con muchas pestañas abiertas. Entregas estándar: 48-72h · Express 24h con tarifa adicional.
-                        <br>
-                        <button class="retro-btn gh-btn" onclick="window.open('https://github.com/Gatobarato-japan','_blank')">&#9733; VER MI GITHUB &#9733;</button>
+            <div class="layout">
+                <aside class="sidebar">
+                    <div class="sb-box">
+                        <div class="sb-title">visitor count</div>
+                        <div class="counter-digits js-count">000142</div>
                     </div>
-                </div>
-
-                <div class="section-box" id="services-section">
-                    <h2><i class="fa-solid fa-box-open"></i>✦  Servicios y Paquetes</h2>
-                    <div class="services-grid">
-                        <div class="service-card">
-                            <h3><i class="fa-solid fa-laptop-code"></i> Paquete Web Express</h3>
-                            <p>Desarrollo web express para fechas importantes en tiempo récord.</p>
-                            <span class="price-badge">Desde S/. 20 – 30</span>
-                        </div>
-                        <div class="service-card">
-                            <h3><i class="fa-solid fa-heart-pulse"></i> Paquete Detalle Digital</h3>
-                            <p>Alternativas estéticas y funcionales adaptadas a presupuestos ajustados.</p>
-                            <span class="price-badge">Desde S/. 5 – 15</span>
-                        </div>
-                        <div class="service-card" style="grid-column: 1 / -1;">
-                            <h3><i class="fa-solid fa-magnifying-glass"></i> Encargos de Investigación y Asesoría</h3>
-                            <p>Indagación discreta de gustos, estilos y preferencias para orientar decisiones o regalos con precisión.</p>
-                            <span class="price-badge">S/. 5 – 15 (según alcance)</span>
+                    <div class="sb-box nav-box">
+                        <div class="sb-title"><i class="fa-solid fa-cross"></i> <span data-i18n="sb_main">principal</span> <i class="fa-solid fa-cross"></i></div>
+                        <a href="#" class="nav-btn" data-go="top"><span data-i18n="m_home">Inicio</span></a>
+                        <a href="#" class="nav-btn" data-go="services-section"><span data-i18n="m_serv">Servicios</span></a>
+                        <a href="#" class="nav-btn" data-go="community-section"><span data-i18n="m_buz">Buzón</span></a>
+                        <a href="#" class="nav-btn" data-go="gallery-section"><span data-i18n="t_gal">Galería de Trabajos</span></a>
+                        <a href="#" class="nav-btn" data-go="report-section"><span data-i18n="t_rep">Reporte Operativo</span></a>
+                        <a href="#" class="nav-btn" data-go="contact-section"><span data-i18n="m_env">Enviar Encargo</span></a>
+                    </div>
+                    <div class="sb-box">
+                        <div class="sb-title"><i class="fa-solid fa-cross"></i> <span data-i18n="sb_up">novedades</span> <i class="fa-solid fa-cross"></i></div>
+                        <div class="sb-news" data-i18n="up_d">Oct 2026: nuevo catálogo con 4 paquetes y 4 estéticas para elegir.</div>
+                    </div>
+                    <div class="sb-box">
+                        <div class="sb-badges">
+                            <div class="sb-badge">S/. 5+</div>
+                            <div class="sb-badge">YAPE / PLIN</div>
+                            <div class="sb-badge">HTML / CSS / JS</div>
                         </div>
                     </div>
-                </div>
+                </aside>
 
-                <div class="section-box" id="community-section">
-                    <h2><i class="fa-solid fa-comments"></i>✦  Buzón de Consultas Frecuentes</h2>
-                    <p style="font-size: 12px; color: #555; margin-bottom: 12px;">
-                        Las preguntas que más llegan a la Oficina. Si la tuya no está aquí, envíala por el formulario de abajo — las mejores se archivan en esta sección.
-                    </p>
+                <div class="main-content-body" id="content-scroll">
 
-                    <div class="community-feed">
-                        <div class="feed-item">
-                            <div class="feed-header">
-                                <span>Consulta frecuente</span>
-                                <span>Tipo: Precios / Dudas</span>
-                            </div>
-                            <div class="feed-q">P: &iquest;Cobran por hacer preguntas o consultas?</div>
-                            <div class="feed-a">R: No. Consultar es gratis, siempre. Solo se cobra cuando ejecutamos tu encargo.</div>
+                    <div class="banner-box" id="top">
+                        <div class="deco-gyaru" aria-hidden="true">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-heart"></i><i class="fa-solid fa-gem"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-heart"></i><i class="fa-solid fa-star"></i>
                         </div>
-
-
-                        <div class="feed-item">
-                            <div class="feed-header">
-                                <span>Consulta frecuente</span>
-                                <span>Tipo: Pregunta / Apuro</span>
-                            </div>
-                            <div class="feed-q">P: ¿Se puede encargar un diseño web con temática retro de los 90s en menos de 24 horas?</div>
-                            <div class="feed-a">R: Confirmado. Se aplican tarifas de emergencia y el sistema queda listo a tiempo.</div>
+                        <div class="deco-office" aria-hidden="true">
+                            <span><i class="fa-solid fa-folder-open"></i> archivo_encargos / 2026</span>
+                            <span><i class="fa-solid fa-floppy-disk"></i> v1.0</span>
                         </div>
-
-                        <div class="feed-item">
-                            <div class="feed-header">
-                                <span>Consulta frecuente</span>
-                                <span>Tipo: Transacción Global</span>
-                            </div>
-                            <div class="feed-q">P: ¿Cómo hago si estoy en otro país (como Chile) y quiero pagar un encargo?</div>
-                            <div class="feed-a">R: Se coordina por transferencia global o tarjeta internacional directamente desde el formulario de abajo. Sin enredos.</div>
+                        <div class="deco-emo" aria-hidden="true">
+                            <span class="cap">oficina.encargos // 2026</span>
+                            <span class="cap alt" data-i18n="emo_meta">entrega 48-72h &middot; express 24h</span>
                         </div>
-
-                        <div class="feed-item">
-                            <div class="feed-header">
-                                <span>Consulta frecuente</span>
-                                <span>Tipo: Investigación Afectiva</span>
-                            </div>
-                            <div class="feed-q">P: ¿Es verdad que investigan discretamente los gustos musicales y de ropa de alguien para un regalo?</div>
-                            <div class="feed-a">R: Totalmente confidencial. Hacemos el trabajo de inteligencia para que quedes bien sin levantar sospechas.</div>
+                        <div class="deco-idol" aria-hidden="true">
+                            <span class="big-star s1"></span><span class="big-star s2"></span><span class="big-star s3"></span>
+                            <span class="vol">VOL. 1</span>
+                            <span class="barcode"></span>
+                        </div>
+                        <h1><i class="fa-solid fa-wand-magic-sparkles"></i> Oficina de Encargos y Otros</h1>
+                        <div class="banner-sub" data-i18n="banner">Soluciones ingeniosas y detalles personalizados desde S/. 5. Gestión directa y discreta para apuros operativos.<br><br>La Oficina la atiende una sola persona con muchas pestañas abiertas. Entregas estándar: 48-72h &middot; Express 24h con tarifa adicional.</div>
+                        <div class="banner-actions">
+                            <button class="retro-btn gh-btn" type="button" onclick="window.open('https://github.com/Gatobarato-japan','_blank')"><i class="fa-brands fa-github"></i> <span data-i18n="btn_gh">VER MI GITHUB</span></button>
                         </div>
                     </div>
-                </div>
 
-                <div class="section-box">
-                    <h2><i class="fa-solid fa-images"></i> ✦ Galería de Trabajos</h2>
-                    <div class="gallery-grid">
-                        <div class="polaroid-frame">
-                            <img class="polaroid-img" src="cumple-khory.png" alt="Web de cumpleaños para Khory">
-                            <span>Web de cumpleaños · encargo #001</span>
-                            <a class="polaroid-link" href="https://proyecto-khory-2026.vercel.app/" target="_blank">ver sitio ↗</a>
-                        </div>
-                        <div class="polaroid-frame">
-                            <img class="polaroid-img" src="planificador.png" alt="Planificador de 8 semanas">
-                            <span>Planificador 8 semanas · imprimible PDF</span>
-                        </div>
-                    </div>
-                    <p style="font-size: 11px; color: #888; margin-top: 8px; font-style: italic;">
-                        * Encargos hechos con cariño. El de cumpleaños hasta tenía botón de bonus secreto.
-                    </p>
-                </div>
-                <div class="section-box">
-                    <h2><i class="fa-solid fa-chart-line"></i>✦  Reporte Operativo</h2>
-                    <div class="table-responsive">
-                        <table class="retro-table">
-                            <tr>
-                                <th>Indicador</th>
-                                <th>Registro</th>
-                            </tr>
-                            <tr>
-                                <td>Encargos realizados (época gratuita)</td>
-                                <td><strong>Varios ★ amigos que ya saben que sí cumplo</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Estado actual</td>
-                                <td><strong>Abriendo al público · 3 cupos especiales de lanzamiento</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Bolsillos protegidos de la bancarrota</td>
-                                <td><strong>100% (el tuyo podría ser el siguiente)</strong></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="section-box" id="contact-section">
-                    <h2><i class="fa-solid fa-paper-plane"></i>✦  Formulario de Solicitud y Preguntas Anónimas</h2>
-
-                    <form id="contact-form">
-                        <div class="form-group">
-                            <label for="name">Tu Nombre / Apodo (o Anónimo):</label>
-                            <input type="text" id="name" name="name" required placeholder="Ej. Mile o Anonimo">
-                        </div>
-                        <div class="form-group">
-                            <label for="contact_method"><i class="fa-solid fa-address-book"></i> &iquest;C&oacute;mo te contactamos de vuelta?</label>
-                            <select id="contact_method" name="contact_method">
-                                <option value="Gmail">Correo Gmail</option>
-                                <option value="WhatsApp / Telefono">WhatsApp / N&uacute;mero de tel&eacute;fono</option>
-                                <option value="Instagram">Instagram (usuario)</option>
-                                <option value="TikTok">TikTok (usuario)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact_info">Tu contacto (seg&uacute;n lo elegido arriba):</label>
-                            <input type="text" id="contact_info" name="contact_info" required placeholder="Ej. tunombre@gmail.com / +51 999 999 999 / @tucuenta">
-                        </div>
-                        <div class="form-group">
-                            <label for="desperation">Tipo de Solicitud / Pregunta:</label>
-                            <select id="desperation" name="desperation">
-                                <option value="Solicitud - Tranquilo">Solicitud: Con tiempo planificado</option>
-                                <option value="Solicitud - Urgente">Solicitud: Urgente / Fecha cercana</option>
-                                <option value="Solo una Pregunta Anonima">Pregunta anónima directa</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="budget">Presupuesto (Opcional si es encargo) [S/.]:</label>
-                            <input type="number" id="budget" name="budget" min="0" step="any" placeholder="Ej. 5 o 15.50" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
-                            <div id="free-note" style="font-size: 11px; color: #000080; margin-top: 4px; font-family: 'VT323', monospace;">
-                                ★ Las preguntas son gratis: presupuesto en 0 y contacto desactivado autom&aacute;ticamente.
+                    <div class="section-box" id="services-section">
+                        <h2><i class="fa-solid fa-box-open"></i> <span data-i18n="t_serv">Servicios y Paquetes</span></h2>
+                        <div class="services-grid">
+                            <div class="service-card">
+                                <h3><i class="fa-solid fa-laptop-code"></i> <span data-i18n="s1t">Paquete Web Express</span></h3>
+                                <p data-i18n="s1d">Desarrollo web express para fechas importantes en tiempo récord.</p>
+                                <span class="price-badge" data-i18n="s1p">Desde S/. 20 &ndash; 30</span>
+                            </div>
+                            <div class="service-card">
+                                <h3><i class="fa-solid fa-photo-film"></i> <span data-i18n="s2t">Paquete Edición &amp; Multimedia</span></h3>
+                                <p data-i18n="s2d">Edición de video, audio e imágenes: collages, montajes y piezas multimedia listas para compartir.</p>
+                                <span class="price-badge" data-i18n="s2p">Desde S/. 5 &ndash; 15</span>
+                            </div>
+                            <div class="service-card">
+                                <h3><i class="fa-solid fa-user-secret"></i> <span data-i18n="s3t">Investigación y Asesoría Secreta</span></h3>
+                                <p data-i18n="s3d">Indagación discreta de gustos, estilos y preferencias para orientar decisiones o regalos con precisión.</p>
+                                <span class="price-badge" data-i18n="s3p">S/. 5 &ndash; 15 (según alcance)</span>
+                            </div>
+                            <div class="service-card">
+                                <h3><i class="fa-solid fa-gift"></i> <span data-i18n="s4t">Detalle Digital Personalizado</span></h3>
+                                <p data-i18n="s4d">Alternativas estéticas y funcionales adaptadas a presupuestos ajustados.</p>
+                                <span class="price-badge" data-i18n="s4p">Desde S/. 5 &ndash; 10</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="payment_method"><i class="fa-solid fa-credit-card"></i> Método de Pago Preferido:</label>
-                            <select id="payment_method" name="payment_method">
-                                <option value="Yape / Plin">Yape / Plin (Local)</option>
-                                <option value="Efectivo">Efectivo (Presencial)</option>
-                                <option value="Tarjeta Internacional / Transferencia Global">Tarjeta Internacional / Transferencia Global (Exterior)</option>
-                                <option value="A coordinar">A coordinar por interno</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Mensaje, Encargo o Pregunta:</label>
-                            <textarea id="message" name="message" required placeholder="Escribe tu mensaje aquí... o pregunta (las mejores preguntas aparecerán en la página)"></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn" id="submit-btn"><i class="fa-solid fa-envelope-circle-check"></i> ENVIAR A GMAIL</button>
-                        <div id="form-status"></div>
-                    </form>
-                </div>
+                    </div>
 
-                <div class="footer-note">
-                    Trabajos desde S/. 5 según tipo y alcance. Pago: Yape / Plin · Efectivo · Internacional.
-                </div>
+                    <div class="section-box" id="community-section">
+                        <h2><i class="fa-solid fa-comments"></i> <span data-i18n="t_buzon">Buzón de Consultas Frecuentes</span></h2>
+                        <p class="faq-intro" data-i18n="faq_intro">Las preguntas que más llegan a la Oficina. Si la tuya no está aquí, envíala por el formulario de abajo: las mejores se archivan en esta sección.</p>
+                        <div class="community-feed">
+                            <div class="feed-item">
+                                <div class="feed-header"><span data-i18n="fq_lbl">Consulta frecuente</span><span data-i18n="ft1">Tipo: Precios / Dudas</span></div>
+                                <div class="feed-q" data-i18n="q1">P: ¿Cobran por hacer preguntas o consultas?</div>
+                                <div class="feed-a" data-i18n="a1">R: No. Consultar es gratis, siempre. Solo se cobra cuando ejecutamos tu encargo.</div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-header"><span data-i18n="fq_lbl">Consulta frecuente</span><span data-i18n="ft2">Tipo: Pregunta / Apuro</span></div>
+                                <div class="feed-q" data-i18n="q2">P: ¿Se puede encargar un diseño web con temática retro de los 90s en menos de 24 horas?</div>
+                                <div class="feed-a" data-i18n="a2">R: Confirmado. Se aplican tarifas de emergencia y el sistema queda listo a tiempo.</div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-header"><span data-i18n="fq_lbl">Consulta frecuente</span><span data-i18n="ft3">Tipo: Transacción Global</span></div>
+                                <div class="feed-q" data-i18n="q3">P: ¿Cómo hago si estoy en otro país (como Chile) y quiero pagar un encargo?</div>
+                                <div class="feed-a" data-i18n="a3">R: Se coordina por transferencia global o tarjeta internacional directamente desde el formulario de abajo. Sin enredos.</div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="feed-header"><span data-i18n="fq_lbl">Consulta frecuente</span><span data-i18n="ft4">Tipo: Investigación Afectiva</span></div>
+                                <div class="feed-q" data-i18n="q4">P: ¿Es verdad que investigan discretamente los gustos musicales y de ropa de alguien para un regalo?</div>
+                                <div class="feed-a" data-i18n="a4">R: Totalmente confidencial. Hacemos el trabajo de inteligencia para que quedes bien sin levantar sospechas.</div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="section-box" id="gallery-section">
+                        <h2><i class="fa-solid fa-images"></i> <span data-i18n="t_gal">Galería de Trabajos</span></h2>
+                        <div class="gallery-grid">
+                            <div class="polaroid-frame">
+                                <img class="polaroid-img" src="cumple-khory.png" alt="Web de cumpleaños para Khory">
+                                <span data-i18n="g1">Web de cumpleaños &middot; encargo #001</span>
+                                <a class="polaroid-link" href="https://proyecto-khory-2026.vercel.app/" target="_blank" rel="noopener"><span data-i18n="g_link">ver sitio</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                            <div class="polaroid-frame">
+                                <img class="polaroid-img" src="planificador.png" alt="Planificador de 8 semanas">
+                                <span data-i18n="g2">Planificador 8 semanas &middot; imprimible PDF</span>
+                            </div>
+                        </div>
+                        <p class="gallery-note" data-i18n="g_note">Encargos hechos con cariño. El de cumpleaños hasta tenía botón de bonus secreto.</p>
+                    </div>
+
+                    <div class="section-box" id="report-section">
+                        <h2><i class="fa-solid fa-chart-line"></i> <span data-i18n="t_rep">Reporte Operativo</span></h2>
+                        <div class="table-responsive">
+                            <table class="retro-table">
+                                <tr><th data-i18n="r_h1">Indicador</th><th data-i18n="r_h2">Registro</th></tr>
+                                <tr><td data-i18n="r1">Encargos realizados (época gratuita)</td><td><strong data-i18n="r1v">Varios amigos que ya saben que sí cumplo</strong></td></tr>
+                                <tr><td data-i18n="r2">Estado actual</td><td><strong data-i18n="r2v">Abriendo al público &middot; 3 cupos especiales de lanzamiento</strong></td></tr>
+                                <tr><td data-i18n="r3">Bolsillos protegidos de la bancarrota</td><td><strong data-i18n="r3v">100% (el tuyo podría ser el siguiente)</strong></td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="section-box" id="contact-section">
+                        <h2><i class="fa-solid fa-paper-plane"></i> <span data-i18n="t_form">Formulario de Solicitud y Preguntas Anónimas</span></h2>
+
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name" data-i18n="f_name">Tu Nombre / Apodo (o Anónimo):</label>
+                                <input type="text" id="name" name="name" required placeholder="Ej. Mile o Anónimo" data-i18n-ph="ph_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_method"><i class="fa-solid fa-address-book"></i> <span data-i18n="f_cm">¿Cómo te contactamos de vuelta?</span></label>
+                                <select id="contact_method" name="contact_method">
+                                    <option value="Gmail">Correo Gmail</option>
+                                    <option value="WhatsApp / Telefono">WhatsApp / Número de teléfono</option>
+                                    <option value="Instagram">Instagram (usuario)</option>
+                                    <option value="TikTok">TikTok (usuario)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_info" data-i18n="f_ci">Tu contacto (según lo elegido arriba):</label>
+                                <input type="text" id="contact_info" name="contact_info" required placeholder="Ej. tunombre@gmail.com / +51 999 999 999 / @tucuenta" data-i18n-ph="ph_ci">
+                            </div>
+                            <div class="form-group">
+                                <label for="desperation" data-i18n="f_ty">Tipo de Solicitud / Pregunta:</label>
+                                <select id="desperation" name="desperation">
+                                    <option value="Solicitud - Tranquilo" data-i18n="fo1">Solicitud: Con tiempo planificado</option>
+                                    <option value="Solicitud - Urgente" data-i18n="fo2">Solicitud: Urgente / Fecha cercana</option>
+                                    <option value="Solo una Pregunta Anonima" data-i18n="fo3">Pregunta anónima directa</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="service" data-i18n="f_sv">Paquete de interés:</label>
+                                <select id="service" name="service">
+                                    <option value="Paquete Web Express" data-i18n="s1t">Paquete Web Express</option>
+                                    <option value="Paquete Edicion y Multimedia" data-i18n="s2t">Paquete Edición &amp; Multimedia</option>
+                                    <option value="Investigacion y Asesoria Secreta" data-i18n="s3t">Investigación y Asesoría Secreta</option>
+                                    <option value="Detalle Digital Personalizado" data-i18n="s4t">Detalle Digital Personalizado</option>
+                                    <option value="Otro / No estoy seguro" data-i18n="sv_o">Otro / No estoy seguro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="budget" data-i18n="f_bu">Presupuesto (Opcional si es encargo) [S/.]:</label>
+                                <input type="number" id="budget" name="budget" min="0" step="any" placeholder="Ej. 5 o 15.50" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
+                                <div class="free-note"><i class="fa-solid fa-circle-info"></i> <span data-i18n="free_note">Las preguntas son gratis: presupuesto en 0 y contacto desactivado automáticamente.</span></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="payment_method"><i class="fa-solid fa-credit-card"></i> <span data-i18n="f_pa">Método de Pago Preferido:</span></label>
+                                <select id="payment_method" name="payment_method">
+                                    <option value="Yape / Plin">Yape / Plin (Local)</option>
+                                    <option value="Efectivo">Efectivo (Presencial)</option>
+                                    <option value="Tarjeta Internacional / Transferencia Global">Tarjeta Internacional / Transferencia Global (Exterior)</option>
+                                    <option value="A coordinar">A coordinar por interno</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" data-i18n="f_ms">Mensaje, Encargo o Pregunta:</label>
+                                <textarea id="message" name="message" required placeholder="Escribe tu mensaje aquí... o pregunta (las mejores preguntas aparecerán en la página)" data-i18n-ph="ph_ms"></textarea>
+                            </div>
+                            <button type="submit" class="retro-btn submit-btn" id="submit-btn"><i class="fa-solid fa-envelope-circle-check" id="submit-icon"></i> <span id="submit-label" data-i18n="btn_send">ENVIAR A GMAIL</span></button>
+                            <div id="form-status" aria-live="polite"></div>
+                        </form>
+
+                        <div class="post-panel" id="post-panel" hidden>
+                            <div class="post-titlebar"><i class="fa-solid fa-circle-check"></i> <span data-i18n="pf_title">Formulario recibido</span></div>
+                            <div class="post-body">
+                                <p class="post-ok"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="pf_ok">Mensaje transmitido con éxito. La Oficina te responderá pronto.</span></p>
+                                <p class="post-intro" data-i18n="pf_intro">Para que tu encargo salga como lo imaginas, envíame:</p>
+                                <ul class="post-list">
+                                    <li><i class="fa-solid fa-camera"></i> <span data-i18n="pf_l1">Fotos de referencia</span></li>
+                                    <li><i class="fa-solid fa-image"></i> <span data-i18n="pf_l2">Imágenes que te gustaría que aparezcan</span></li>
+                                    <li><i class="fa-solid fa-pen-nib"></i> <span data-i18n="pf_l3">Descripciones de lo que imaginas</span></li>
+                                    <li><i class="fa-solid fa-sliders"></i> <span data-i18n="pf_l4">Funciones deseadas (qué debe hacer)</span></li>
+                                    <li><i class="fa-solid fa-circle-info"></i> <span data-i18n="pf_l5">Opcionalmente, la información (nombres, fechas, datos)</span></li>
+                                </ul>
+                                <p class="transparent-note"><i class="fa-solid fa-eye"></i> <span data-i18n="pf_note">La información que des es opcional, pero en cambio yo investigaré en forma sencilla según la idea que me das</span></p>
+                                <p class="post-q" data-i18n="pf_q">¿Quieres abrir el chat en vivo para enviar tus referencias ahora?</p>
+                                <div class="post-actions" id="post-actions">
+                                    <button type="button" class="retro-btn" id="chat-yes"><i class="fa-solid fa-comments"></i> <span data-i18n="pf_yes">[ Sí ]</span></button>
+                                    <button type="button" class="retro-btn" id="chat-no"><i class="fa-solid fa-xmark"></i> <span data-i18n="pf_no">[ No ]</span></button>
+                                </div>
+                                <div class="post-answer" id="post-answer" aria-live="polite"></div>
+                                <button type="button" class="retro-btn" id="again-btn" hidden><i class="fa-solid fa-rotate-left"></i> <span data-i18n="pf_again">ENVIAR OTRO FORMULARIO</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-note" data-i18n="foot">Trabajos desde S/. 5 según tipo y alcance. Pago: Yape / Plin &middot; Efectivo &middot; Internacional.</div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        /* =====================================================
+           CONFIGURACION (edita estas dos constantes)
+           ===================================================== */
+        // Tawk.to: copia tu enlace desde Administración > Canales > Chat Widget > "Direct Chat Link"
+        // Formato: https://embed.tawk.to/TU_PROPERTY_ID/TU_WIDGET_ID
+        const TAWK_SRC = 'https://embed.tawk.to/TU_PROPERTY_ID/TU_WIDGET_ID';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwAPPEemwEPcRmDXYfvwTHclmZ1rpZJGoScWYZsbMHMEaRdHSXjsBw1uiwydKBBN8AJ-Q/exec';
+
+        /* =====================================================
+           TAWK.TO (el widget queda oculto hasta que el visitante dice "Sí")
+           ===================================================== */
+        var Tawk_API = Tawk_API || {};
+        var Tawk_LoadStart = new Date();
+        let tawkReady = false;
+        Tawk_API.onLoad = function () {
+            tawkReady = true;
+            try { Tawk_API.hideWidget(); } catch (e) {}
+        };
+        if (TAWK_SRC.indexOf('TU_PROPERTY_ID') === -1) {
+            const tw = document.createElement('script');
+            tw.async = true; tw.src = TAWK_SRC; tw.charset = 'UTF-8';
+            tw.setAttribute('crossorigin', '*');
+            document.head.appendChild(tw);
+        }
+
+        /* =====================================================
+           TEXTOS (ES queda en el HTML; aquí los demás idiomas)
+           ===================================================== */
+        const I18N = {
+            es: {
+                st_sending: 'TRANSMITIENDO...',
+                st_err: 'Error de transmisión.',
+                pf_open: 'Abriendo el chat en vivo...',
+                pf_nochat: 'El chat en vivo no está disponible en este momento. Deja tus referencias en un nuevo formulario.',
+                pf_no_txt: 'Okey, otro formulario entonces',
+                th_set_done: 'Predeterminada',
+                th_toast: 'Estética guardada como predeterminada.',
+                ph_ci_off: 'No aplica para preguntas anónimas'
+            },
+            en: {
+                m_home: 'Home', m_serv: 'Services', m_buz: 'Mailbox', m_env: 'Send Request',
+                th_label: 'Style', th_gyaru: 'Gyaru / Kawaii', th_office: 'Classic Office', th_emo: 'Emo / Y2K', th_idol: 'Idol Stage',
+                th_set: 'Set default', th_set_done: 'Default style', th_toast: 'Style saved as your default.',
+                vis: 'TOTAL VISITORS:', sb_main: 'main', sb_up: 'updates',
+                up_d: 'Oct 2026: new catalog with 4 packages and 4 visual styles to choose from.',
+                idol_top: '&copy; OFFICE OF REQUESTS AND OTHERS. OCTOBER 2026 ISSUE, VOLUME 1.',
+                emo_meta: 'delivery 48-72h &middot; express 24h',
+                sp_desc: 'Operations space for young creatives. Clever solutions, web development, digital details and affective research advice.', sp_btn: 'ENTER SITE',
+                banner: 'Clever solutions and personalized details from S/. 5. Direct, discreet handling for operational emergencies.<br><br>The Office is run by one person with many tabs open. Standard delivery: 48-72h &middot; Express 24h at an extra fee.',
+                btn_gh: 'VIEW MY GITHUB',
+                t_serv: 'Services & Packages', t_buzon: 'Frequently Asked Questions', t_gal: 'Work Gallery', t_rep: 'Operational Report', t_form: 'Request & Anonymous Questions Form',
+                s1t: 'Web Express Package', s1d: 'Express web development for important dates, delivered in record time.', s1p: 'From S/. 20 – 30',
+                s2t: 'Editing & Multimedia Package', s2d: 'Video, audio and image editing: collages, montages and multimedia pieces ready to share.', s2p: 'From S/. 5 – 15',
+                s3t: 'Secret Research & Advisory', s3d: 'Discreet research on tastes, styles and preferences to guide decisions or gifts with precision.', s3p: 'S/. 5 – 15 (scope-based)',
+                s4t: 'Custom Digital Detail', s4d: 'Aesthetic and functional alternatives tailored to tight budgets.', s4p: 'From S/. 5 – 10',
+                faq_intro: 'The questions that reach the Office most. If yours is not here, send it through the form below: the best ones get archived in this section.',
+                fq_lbl: 'Frequent question', ft1: 'Type: Prices / Doubts', ft2: 'Type: Question / Rush', ft3: 'Type: Global Payment', ft4: 'Type: Affective Research',
+                q1: 'Q: Do you charge for questions or consultations?', a1: 'A: No. Asking is always free. We only charge when we carry out your request.',
+                q2: 'Q: Can I order a retro 90s-themed web design in less than 24 hours?', a2: 'A: Confirmed. Emergency rates apply and the system is ready on time.',
+                q3: 'Q: What if I am in another country (like Chile) and want to pay?', a3: 'A: We arrange a global transfer or international card directly from the form below. No hassle.',
+                q4: 'Q: Is it true you discreetly research someone\'s music and clothing tastes for a gift?', a4: 'A: Totally confidential. We do the intelligence work so you look great without raising suspicion.',
+                g1: 'Birthday website &middot; order #001', g2: '8-week planner &middot; printable PDF', g_link: 'view site',
+                g_note: 'Orders made with care. The birthday one even had a secret bonus button.',
+                r_h1: 'Indicator', r_h2: 'Record', r1: 'Completed orders (free era)', r2: 'Current status', r3: 'Pockets saved from bankruptcy',
+                r1v: 'Several friends who already know I deliver', r2v: 'Opening to the public &middot; 3 special launch spots', r3v: '100% (yours could be next)',
+                f_name: 'Your Name / Nickname (or Anonymous):', ph_name: 'E.g. Mile or Anonymous',
+                f_cm: 'How do we reach you back?', f_ci: 'Your contact (matching the option above):', ph_ci: 'E.g. yourname@gmail.com / +51 999 999 999 / @youraccount', ph_ci_off: 'Not applicable for anonymous questions',
+                f_ty: 'Request / Question type:', fo1: 'Request: planned ahead', fo2: 'Request: urgent / close date', fo3: 'Direct anonymous question',
+                f_sv: 'Package of interest:', sv_o: 'Other / Not sure',
+                f_bu: 'Budget (optional for requests) [S/.]:', free_note: 'Questions are free: budget set to 0 and contact disabled automatically.',
+                f_pa: 'Preferred payment method:', f_ms: 'Message, Request or Question:', ph_ms: 'Write your message here... or question (the best questions will appear on the page)',
+                btn_send: 'SEND TO GMAIL', st_sending: 'TRANSMITTING...', st_err: 'Transmission error.',
+                pf_title: 'Form received', pf_ok: 'Message transmitted successfully. The Office will reply soon.',
+                pf_intro: 'So your request turns out the way you imagine it, send me:',
+                pf_l1: 'Reference photos', pf_l2: 'Images you would like to appear', pf_l3: 'Descriptions of what you imagine', pf_l4: 'Desired features (what it should do)', pf_l5: 'Optionally, the information (names, dates, details)',
+                pf_note: 'The information you give is optional, but in return I will do simple research based on the idea you give me.',
+                pf_q: 'Do you want to open the live chat to send your references now?', pf_yes: '[ Yes ]', pf_no: '[ No ]',
+                pf_open: 'Opening the live chat...', pf_nochat: 'The live chat is not available right now. Leave your references in a new form.', pf_no_txt: 'Okay, another form then', pf_again: 'SEND ANOTHER FORM',
+                foot: 'Work from S/. 5 depending on type and scope. Payment: Yape / Plin &middot; Cash &middot; International.'
+            },
+            zh: {
+                m_home: '首页', m_serv: '服务', m_buz: '信箱', m_env: '提交委托',
+                th_label: '风格', th_gyaru: '辣妹 / 卡哇伊', th_office: '经典办公室', th_emo: '艾莫 / Y2K', th_idol: '偶像舞台',
+                th_set: '设为默认', th_set_done: '已设默认', th_toast: '已将此风格保存为默认。',
+                vis: '总访问量：', sb_main: '主页', sb_up: '最新消息',
+                up_d: '2026年10月：全新目录，4种套餐与4种视觉风格任选。',
+                idol_top: '&copy; 委托办公室及其他。2026年10月刊，第1卷。',
+                emo_meta: '交付 48-72小时 &middot; 加急 24小时',
+                sp_desc: '为年轻创作者打造的运营空间。创意方案、网页开发、数字小心意与情感调查咨询。', sp_btn: '进入网站',
+                banner: '创意方案与个性化小定制，5 索尔起。直接而隐秘地处理紧急事务。<br><br>本办公室由一位开着无数标签页的人经营。常规交付：48-72小时 &middot; 24小时加急另计费。',
+                btn_gh: '查看我的 GITHUB',
+                t_serv: '服务与套餐', t_buzon: '常见问题', t_gal: '作品展示', t_rep: '运营报告', t_form: '委托与匿名提问表单',
+                s1t: '快速网页套餐', s1d: '为重要日子极速打造网页，创纪录交付。', s1p: '20 – 30 索尔起',
+                s2t: '剪辑与多媒体套餐', s2d: '视频、音频与图片剪辑：拼贴、混剪与可直接分享的多媒体作品。', s2p: '5 – 15 索尔起',
+                s3t: '秘密调查与顾问', s3d: '隐秘调查喜好、风格与偏好，精准助力决策与送礼。', s3p: '5 – 15 索尔（视范围）',
+                s4t: '个性化数字小心意', s4d: '兼顾美感与实用，适配紧张预算。', s4p: '5 – 10 索尔起',
+                faq_intro: '最常问到办公室的问题。若你的问题不在其中，请用下方表单发送：最好的问题会被收录于此。',
+                fq_lbl: '常见问题', ft1: '类型：价格 / 疑问', ft2: '类型：提问 / 急单', ft3: '类型：跨国支付', ft4: '类型：情感调查',
+                q1: '问：提问或咨询收费吗？', a1: '答：不。咨询永远免费，只有执行委托才收费。',
+                q2: '问：24小时内能做出90年代复古主题网页吗？', a2: '答：可以。适用加急费率，保证准时上线。',
+                q3: '问：如果我在国外（比如智利）想付款怎么办？', a3: '答：通过下方表单安排国际转账或信用卡支付，不麻烦。',
+                q4: '问：你们真的会悄悄调查某人的音乐和穿衣喜好来准备礼物吗？', a4: '答：完全保密。我们负责情报工作，让你不动声色地赢得好感。',
+                g1: '生日网页 &middot; 委托 #001', g2: '8周计划表 &middot; 可打印 PDF', g_link: '查看网站',
+                g_note: '用心完成的委托。生日那个甚至还有隐藏的彩蛋按钮。',
+                r_h1: '指标', r_h2: '记录', r1: '已完成委托（免费时期）', r2: '当前状态', r3: '从破产中拯救的钱包',
+                r1v: '好几位知道我说到做到的朋友', r2v: '向公众开放 &middot; 3个特别首发名额', r3v: '100%（下一个可能就是你的）',
+                f_name: '您的名字/昵称（或匿名）：', ph_name: '例如：Mile 或 匿名',
+                f_cm: '我们如何回复您？', f_ci: '您的联系方式（对应上方所选）：', ph_ci: '例如：name@gmail.com / +51 999 999 999 / @账号', ph_ci_off: '匿名提问无需填写',
+                f_ty: '委托 / 提问类型：', fo1: '委托：提前规划', fo2: '委托：紧急 / 日期临近', fo3: '直接匿名提问',
+                f_sv: '感兴趣的套餐：', sv_o: '其他 / 不确定',
+                f_bu: '预算（委托可选填）[索尔]：', free_note: '提问免费：预算自动设为0，联系方式自动停用。',
+                f_pa: '首选付款方式：', f_ms: '留言、委托或提问：', ph_ms: '在此输入留言或问题……（优质问题会展示在页面上）',
+                btn_send: '发送到 GMAIL', st_sending: '传输中...', st_err: '传输错误。',
+                pf_title: '表单已收到', pf_ok: '消息发送成功。办公室会尽快回复您。',
+                pf_intro: '为了让委托做出你想象中的样子，请发给我：',
+                pf_l1: '参考照片', pf_l2: '希望出现的图片', pf_l3: '你所想象内容的描述', pf_l4: '期望的功能（需要实现什么）', pf_l5: '可选：相关信息（名字、日期、资料）',
+                pf_note: '你提供的信息是可选的，但作为交换，我会根据你给出的想法做简单的调查。',
+                pf_q: '现在要打开在线聊天来发送参考资料吗？', pf_yes: '[ 是 ]', pf_no: '[ 否 ]',
+                pf_open: '正在打开在线聊天...', pf_nochat: '在线聊天暂时不可用。请通过新表单留下你的参考资料。', pf_no_txt: '好的，那就再填一份表单吧', pf_again: '再发一份表单',
+                foot: '5 索尔起，视类型与范围而定。付款：Yape / Plin &middot; 现金 &middot; 国际支付。'
+            },
+            ko: {
+                m_home: '홈', m_serv: '서비스', m_buz: '우편함', m_env: '의뢰하기',
+                th_label: '스타일', th_gyaru: '갸루 / 카와이', th_office: '클래식 오피스', th_emo: '에모 / Y2K', th_idol: '아이돌 스테이지',
+                th_set: '기본값 설정', th_set_done: '기본값', th_toast: '이 스타일을 기본값으로 저장했어요.',
+                vis: '총 방문자:', sb_main: '메인', sb_up: '업데이트',
+                up_d: '2026년 10월: 4가지 패키지와 4가지 스타일을 고를 수 있는 새 카탈로그.',
+                idol_top: '&copy; 의뢰 사무소 외. 2026년 10월호, 제1권.',
+                emo_meta: '납품 48-72시간 &middot; 익스프레스 24시간',
+                sp_desc: '젊은 크리에이터를 위한 운영 공간. 기발한 솔루션, 웹 개발, 디지털 디테일, 감성 조사 자문.', sp_btn: '사이트 입장',
+                banner: '기발한 솔루션과 맞춤 디테일, 5솔부터. 긴급 의뢰를 직접적이고 신중하게 처리합니다.<br><br>이 사무실은 수많은 탭을 띄워둔 한 사람이 운영합니다. 기본 납품: 48-72시간 &middot; 24시간 익스프레스는 추가 요금.',
+                btn_gh: '내 GITHUB 보기',
+                t_serv: '서비스 및 패키지', t_buzon: '자주 묻는 질문', t_gal: '작업 갤러리', t_rep: '운영 보고', t_form: '의뢰 및 익명 질문 양식',
+                s1t: '웹 익스프레스 패키지', s1d: '중요한 날을 위한 초고속 웹 개발, 기록적인 시간에 완성.', s1p: 'S/. 20 – 30부터',
+                s2t: '편집 & 멀티미디어 패키지', s2d: '영상, 오디오, 이미지 편집: 콜라주, 몽타주 등 바로 공유할 수 있는 멀티미디어 작업.', s2p: 'S/. 5 – 15부터',
+                s3t: '비밀 조사 및 자문', s3d: '취향, 스타일, 선호를 신중히 조사해 결정과 선물을 정확하게 돕습니다.', s3p: 'S/. 5 – 15 (범위에 따라)',
+                s4t: '맞춤 디지털 디테일', s4d: '빠듯한 예산에 맞춘 심미적이고 실용적인 대안.', s4p: 'S/. 5 – 10부터',
+                faq_intro: '사무실에 가장 많이 도착하는 질문들. 원하는 답이 없으면 아래 양식으로 보내 주세요. 좋은 질문은 이곳에 기록됩니다.',
+                fq_lbl: '자주 묻는 질문', ft1: '유형: 가격 / 문의', ft2: '유형: 질문 / 급건', ft3: '유형: 해외 결제', ft4: '유형: 감성 조사',
+                q1: 'Q: 질문이나 상담에 비용이 있나요?', a1: 'A: 아니요. 문의는 항상 무료입니다. 의뢰를 실행할 때만 비용이 발생합니다.',
+                q2: 'Q: 90년대 레트로 컨셉 웹디자인을 24시간 안에 주문할 수 있나요?', a2: 'A: 가능합니다. 긴급 요금이 적용되며 정시에 완료됩니다.',
+                q3: 'Q: 해외(칠레 등)에 있는데 결제하려면 어떻게 하나요?', a3: 'A: 아래 양식에서 해외 송금이나 국제카드로 진행합니다. 간단합니다.',
+                q4: 'Q: 선물을 위해 누군가의 음악·옷 취향을 몰래 조사해 주나요?', a4: 'A: 철저히 기밀입니다. 의심받지 않고 센스 있어 보이도록 정보 작업을 해드립니다.',
+                g1: '생일 웹사이트 &middot; 의뢰 #001', g2: '8주 플래너 &middot; 인쇄용 PDF', g_link: '사이트 보기',
+                g_note: '정성껏 만든 의뢰들. 생일 사이트에는 비밀 보너스 버튼도 있었어요.',
+                r_h1: '지표', r_h2: '기록', r1: '완료된 의뢰 (무료 시대)', r2: '현재 상태', r3: '파산에서 구한 지갑',
+                r1v: '제가 약속을 지킨다는 걸 아는 여러 친구들', r2v: '일반 공개 중 &middot; 특별 런칭 3자리', r3v: '100% (다음은 당신 차례일지도)',
+                f_name: '이름 / 닉네임 (또는 익명):', ph_name: '예: Mile 또는 익명',
+                f_cm: '어떻게 연락드릴까요?', f_ci: '연락처 (위 선택에 맞게):', ph_ci: '예: name@gmail.com / +51 999 999 999 / @계정', ph_ci_off: '익명 질문에는 필요하지 않습니다',
+                f_ty: '의뢰 / 질문 유형:', fo1: '의뢰: 여유 있게 계획', fo2: '의뢰: 급함 / 날짜 임박', fo3: '익명 질문만',
+                f_sv: '관심 패키지:', sv_o: '기타 / 잘 모르겠음',
+                f_bu: '예산 (의뢰 시 선택) [S/.]:', free_note: '질문은 무료: 예산은 0으로, 연락처는 자동 비활성화됩니다.',
+                f_pa: '선호 결제 수단:', f_ms: '메시지, 의뢰 또는 질문:', ph_ms: '여기에 메시지나 질문을 적어 주세요... (좋은 질문은 페이지에 소개됩니다)',
+                btn_send: 'GMAIL로 보내기', st_sending: '전송 중...', st_err: '전송 오류.',
+                pf_title: '양식 접수 완료', pf_ok: '메시지가 성공적으로 전송되었습니다. 곧 답변드릴게요.',
+                pf_intro: '의뢰가 상상한 대로 나오도록 다음을 보내 주세요:',
+                pf_l1: '참고 사진', pf_l2: '들어갔으면 하는 이미지', pf_l3: '상상하는 내용에 대한 설명', pf_l4: '원하는 기능 (무엇을 해야 하는지)', pf_l5: '선택 사항: 정보 (이름, 날짜, 자료)',
+                pf_note: '제공하는 정보는 선택 사항이지만, 그 대신 저는 주신 아이디어를 바탕으로 간단히 조사해 보겠습니다.',
+                pf_q: '지금 라이브 채팅을 열어 참고 자료를 보내시겠어요?', pf_yes: '[ 예 ]', pf_no: '[ 아니요 ]',
+                pf_open: '라이브 채팅을 여는 중...', pf_nochat: '지금은 라이브 채팅을 사용할 수 없습니다. 새 양식으로 참고 자료를 남겨 주세요.', pf_no_txt: '알겠어요, 그럼 다른 양식으로', pf_again: '다른 양식 보내기',
+                foot: '유형과 범위에 따라 5솔부터. 결제: Yape / Plin &middot; 현금 &middot; 국제 결제.'
+            },
+            pt: {
+                m_home: 'Início', m_serv: 'Serviços', m_buz: 'Correio', m_env: 'Enviar Pedido',
+                th_label: 'Estética', th_gyaru: 'Gyaru / Kawaii', th_office: 'Escritório Clássico', th_emo: 'Emo / Y2K', th_idol: 'Idol Stage',
+                th_set: 'Predefinir', th_set_done: 'Predefinida', th_toast: 'Estética salva como predefinida.',
+                vis: 'VISITANTES TOTAIS:', sb_main: 'principal', sb_up: 'novidades',
+                up_d: 'Out 2026: novo catálogo com 4 pacotes e 4 estéticas para escolher.',
+                idol_top: '&copy; ESCRITÓRIO DE PEDIDOS E OUTROS. EDIÇÃO OUTUBRO 2026, VOLUME 1.',
+                emo_meta: 'entrega 48-72h &middot; expresso 24h',
+                sp_desc: 'Espaço operacional para jovens criativos. Soluções engenhosas, desenvolvimento web, detalhes digitais e consultoria de pesquisa afetiva.', sp_btn: 'ENTRAR NO SITE',
+                banner: 'Soluções criativas e detalhes personalizados desde S/. 5. Atendimento direto e discreto para urgências.<br><br>O Escritório é administrado por uma pessoa com muitas abas abertas. Entrega padrão: 48-72h &middot; Expresso 24h com taxa extra.',
+                btn_gh: 'VER MEU GITHUB',
+                t_serv: 'Serviços e Pacotes', t_buzon: 'Perguntas Frequentes', t_gal: 'Galeria de Trabalhos', t_rep: 'Relatório Operacional', t_form: 'Formulário de Pedidos e Perguntas Anônimas',
+                s1t: 'Pacote Web Expresso', s1d: 'Desenvolvimento web expresso para datas importantes em tempo recorde.', s1p: 'A partir de S/. 20 – 30',
+                s2t: 'Pacote Edição & Multimídia', s2d: 'Edição de vídeo, áudio e imagens: colagens, montagens e peças multimídia prontas para compartilhar.', s2p: 'A partir de S/. 5 – 15',
+                s3t: 'Pesquisa e Consultoria Secreta', s3d: 'Investigação discreta de gostos, estilos e preferências para orientar decisões ou presentes com precisão.', s3p: 'S/. 5 – 15 (conforme escopo)',
+                s4t: 'Detalhe Digital Personalizado', s4d: 'Alternativas estéticas e funcionais para orçamentos apertados.', s4p: 'A partir de S/. 5 – 10',
+                faq_intro: 'As perguntas que mais chegam ao Escritório. Se a sua não estiver aqui, envie pelo formulário abaixo: as melhores são arquivadas nesta seção.',
+                fq_lbl: 'Pergunta frequente', ft1: 'Tipo: Preços / Dúvidas', ft2: 'Tipo: Pergunta / Urgência', ft3: 'Tipo: Pagamento Global', ft4: 'Tipo: Pesquisa Afetiva',
+                q1: 'P: Cobram por perguntas ou consultas?', a1: 'R: Não. Perguntar é sempre grátis. Só cobramos quando executamos o pedido.',
+                q2: 'P: Posso encomendar um design web retrô dos anos 90 em menos de 24 horas?', a2: 'R: Confirmado. Taxas de emergência se aplicam e o sistema fica pronto no prazo.',
+                q3: 'P: E se eu estiver em outro país (como o Chile) e quiser pagar?', a3: 'R: Organizamos transferência global ou cartão internacional diretamente pelo formulário abaixo. Sem complicação.',
+                q4: 'P: É verdade que investigam discretamente os gostos musicais e de roupa de alguém para um presente?', a4: 'R: Totalmente confidencial. Fazemos o trabalho de inteligência para você se dar bem sem levantar suspeitas.',
+                g1: 'Site de aniversário &middot; pedido #001', g2: 'Planejador de 8 semanas &middot; PDF imprimível', g_link: 'ver site',
+                g_note: 'Pedidos feitos com carinho. O de aniversário até tinha um botão de bônus secreto.',
+                r_h1: 'Indicador', r_h2: 'Registro', r1: 'Pedidos concluídos (era gratuita)', r2: 'Status atual', r3: 'Bolsos salvos da falência',
+                r1v: 'Vários amigos que já sabem que eu cumpro', r2v: 'Abrindo ao público &middot; 3 vagas especiais de lançamento', r3v: '100% (o seu pode ser o próximo)',
+                f_name: 'Seu Nome / Apelido (ou Anônimo):', ph_name: 'Ex. Mile ou Anônimo',
+                f_cm: 'Como entramos em contato com você?', f_ci: 'Seu contato (conforme a opção acima):', ph_ci: 'Ex. seunome@gmail.com / +51 999 999 999 / @suaconta', ph_ci_off: 'Não se aplica a perguntas anônimas',
+                f_ty: 'Tipo de Pedido / Pergunta:', fo1: 'Pedido: com tempo planejado', fo2: 'Pedido: urgente / data próxima', fo3: 'Pergunta anônima direta',
+                f_sv: 'Pacote de interesse:', sv_o: 'Outro / Não tenho certeza',
+                f_bu: 'Orçamento (opcional para pedidos) [S/.]:', free_note: 'Perguntas são grátis: orçamento em 0 e contato desativado automaticamente.',
+                f_pa: 'Método de pagamento preferido:', f_ms: 'Mensagem, Pedido ou Pergunta:', ph_ms: 'Escreva sua mensagem aqui... ou pergunta (as melhores aparecerão na página)',
+                btn_send: 'ENVIAR PARA O GMAIL', st_sending: 'TRANSMITINDO...', st_err: 'Erro de transmissão.',
+                pf_title: 'Formulário recebido', pf_ok: 'Mensagem transmitida com sucesso. O Escritório responderá em breve.',
+                pf_intro: 'Para que seu pedido saia como você imagina, envie-me:',
+                pf_l1: 'Fotos de referência', pf_l2: 'Imagens que você gostaria que aparecessem', pf_l3: 'Descrições do que você imagina', pf_l4: 'Funções desejadas (o que deve fazer)', pf_l5: 'Opcionalmente, a informação (nomes, datas, dados)',
+                pf_note: 'A informação que você der é opcional, mas em troca eu pesquisarei de forma simples a partir da ideia que você me der.',
+                pf_q: 'Quer abrir o chat ao vivo para enviar suas referências agora?', pf_yes: '[ Sim ]', pf_no: '[ Não ]',
+                pf_open: 'Abrindo o chat ao vivo...', pf_nochat: 'O chat ao vivo não está disponível agora. Deixe suas referências em um novo formulário.', pf_no_txt: 'Ok, outro formulário então', pf_again: 'ENVIAR OUTRO FORMULÁRIO',
+                foot: 'Trabalhos desde S/. 5 conforme tipo e escopo. Pagamento: Yape / Plin &middot; Dinheiro &middot; Internacional.'
+            },
+            ru: {
+                m_home: 'Главная', m_serv: 'Услуги', m_buz: 'Почта', m_env: 'Оформить заказ',
+                th_label: 'Стиль', th_gyaru: 'Гяру / Каваий', th_office: 'Классический офис', th_emo: 'Эмо / Y2K', th_idol: 'Сцена айдолов',
+                th_set: 'По умолчанию', th_set_done: 'Выбрано', th_toast: 'Стиль сохранён как основной.',
+                vis: 'ВСЕГО ПОСЕТИТЕЛЕЙ:', sb_main: 'главная', sb_up: 'новости',
+                up_d: 'Окт 2026: новый каталог с 4 пакетами и 4 визуальными стилями на выбор.',
+                idol_top: '&copy; ОФИС ЗАКАЗОВ И ПРОЧЕГО. ВЫПУСК ОКТЯБРЬ 2026, ТОМ 1.',
+                emo_meta: 'сдача 48-72ч &middot; экспресс 24ч',
+                sp_desc: 'Рабочее пространство для молодых творцов. Находчивые решения, веб-разработка, цифровые мелочи и консультации по деликатным исследованиям.', sp_btn: 'ВОЙТИ НА САЙТ',
+                banner: 'Находчивые решения и персональные детали от 5 солей. Прямая и конфиденциальная работа со срочными заказами.<br><br>Офисом управляет один человек с кучей открытых вкладок. Стандартная сдача: 48-72ч &middot; Экспресс 24ч за доплату.',
+                btn_gh: 'МОЙ GITHUB',
+                t_serv: 'Услуги и пакеты', t_buzon: 'Частые вопросы', t_gal: 'Галерея работ', t_rep: 'Оперативный отчёт', t_form: 'Форма заказа и анонимных вопросов',
+                s1t: 'Пакет «Экспресс-сайт»', s1d: 'Экспресс-разработка сайтов к важным датам в рекордные сроки.', s1p: 'От S/. 20 – 30',
+                s2t: 'Пакет «Монтаж и мультимедиа»', s2d: 'Монтаж видео, аудио и изображений: коллажи, нарезки и мультимедиа-работы, готовые к публикации.', s2p: 'От S/. 5 – 15',
+                s3t: 'Тайные исследования и консультации', s3d: 'Деликатное выяснение вкусов, стилей и предпочтений для точных решений и подарков.', s3p: 'S/. 5 – 15 (по объёму)',
+                s4t: 'Персональная цифровая мелочь', s4d: 'Эстетичные и практичные варианты для ограниченного бюджета.', s4p: 'От S/. 5 – 10',
+                faq_intro: 'Вопросы, которые чаще всего приходят в Офис. Если вашего нет, отправьте его через форму ниже: лучшие попадут в этот раздел.',
+                fq_lbl: 'Частый вопрос', ft1: 'Тип: Цены / Сомнения', ft2: 'Тип: Вопрос / Срочно', ft3: 'Тип: Международный платёж', ft4: 'Тип: Деликатное исследование',
+                q1: 'В: Берёте плату за вопросы?', a1: 'О: Нет. Спрашивать всегда бесплатно. Вы платите только за выполнение заказа.',
+                q2: 'В: Можно заказать ретро-дизайн в стиле 90-х меньше чем за 24 часа?', a2: 'О: Подтверждено. Применяются срочные тарифы, система будет готова в срок.',
+                q3: 'В: Как оплатить, если я в другой стране (например, в Чили)?', a3: 'О: Организуем международный перевод или оплату картой прямо через форму ниже. Без хлопот.',
+                q4: 'В: Правда, вы незаметно выясняете музыкальные вкусы и стиль человека для подарка?', a4: 'О: Абсолютно конфиденциально. Мы делаем разведку, чтобы вы произвели впечатление, не вызывая подозрений.',
+                g1: 'Сайт на день рождения &middot; заказ #001', g2: 'Планировщик на 8 недель &middot; печатный PDF', g_link: 'открыть сайт',
+                g_note: 'Заказы, сделанные с любовью. В сайте на день рождения даже была секретная бонус-кнопка.',
+                r_h1: 'Показатель', r_h2: 'Запись', r1: 'Выполненные заказы (бесплатная эпоха)', r2: 'Текущий статус', r3: 'Кошельки, спасённые от банкротства',
+                r1v: 'Несколько друзей, которые знают, что я выполняю обещания', r2v: 'Открываемся для публики &middot; 3 специальных места на старте', r3v: '100% (следующим может быть ваш)',
+                f_name: 'Имя / Ник (или аноним):', ph_name: 'Напр. Mile или Аноним',
+                f_cm: 'Как с вами связаться?', f_ci: 'Ваш контакт (по выбранному выше):', ph_ci: 'Напр. name@gmail.com / +51 999 999 999 / @аккаунт', ph_ci_off: 'Не нужно для анонимных вопросов',
+                f_ty: 'Тип заказа / вопроса:', fo1: 'Заказ: с запасом времени', fo2: 'Заказ: срочно / дата близко', fo3: 'Прямой анонимный вопрос',
+                f_sv: 'Интересующий пакет:', sv_o: 'Другое / Не уверен',
+                f_bu: 'Бюджет (необязательно для заказа) [S/.]:', free_note: 'Вопросы бесплатны: бюджет ставится в 0, контакт отключается автоматически.',
+                f_pa: 'Предпочтительный способ оплаты:', f_ms: 'Сообщение, заказ или вопрос:', ph_ms: 'Напишите сообщение или вопрос... (лучшие вопросы появятся на странице)',
+                btn_send: 'ОТПРАВИТЬ В GMAIL', st_sending: 'ПЕРЕДАЧА...', st_err: 'Ошибка передачи.',
+                pf_title: 'Форма получена', pf_ok: 'Сообщение успешно передано. Офис скоро ответит.',
+                pf_intro: 'Чтобы заказ получился таким, как вы его представляете, пришлите мне:',
+                pf_l1: 'Фото-референсы', pf_l2: 'Изображения, которые вы хотели бы видеть', pf_l3: 'Описания того, что вы себе представляете', pf_l4: 'Желаемые функции (что оно должно делать)', pf_l5: 'По желанию: информацию (имена, даты, данные)',
+                pf_note: 'Информация, которую вы дадите, необязательна, но взамен я проведу простое исследование по идее, которую вы мне предложите.',
+                pf_q: 'Хотите открыть живой чат, чтобы отправить референсы сейчас?', pf_yes: '[ Да ]', pf_no: '[ Нет ]',
+                pf_open: 'Открываю живой чат...', pf_nochat: 'Живой чат сейчас недоступен. Оставьте референсы в новой форме.', pf_no_txt: 'Окей, тогда другая форма', pf_again: 'ОТПРАВИТЬ ЕЩЁ ОДНУ ФОРМУ',
+                foot: 'Работы от 5 солей в зависимости от типа и объёма. Оплата: Yape / Plin &middot; наличные &middot; международная.'
+            }
+        };
+
+        let lang = 'es';
+        function t(k) {
+            const d = I18N[lang];
+            if (d && d[k] !== undefined) return d[k];
+            if (I18N.es[k] !== undefined) return I18N.es[k];
+            const el = document.querySelector('[data-i18n="' + k + '"]');
+            return el ? el.dataset.es : '';
+        }
+
+        function applyLang(l) {
+            lang = I18N[l] ? l : 'es';
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const k = el.dataset.i18nPh;
+                el.placeholder = (lang === 'es' && el.dataset.phEs) ? el.dataset.phEs : (t(k) || el.dataset.phEs);
+            });
+            applyTypeState();
+            refreshDefaultBtn();
+            try { localStorage.setItem('oe_lang', lang); } catch (e) {}
+        }
+
+        /* =====================================================
+           ESTETICAS
+           ===================================================== */
+        const THEMES = ['gyaru', 'office', 'emo', 'idol'];
+        const themeSelect = document.getElementById('theme-select');
+        const setDefaultBtn = document.getElementById('set-default-btn');
+
+        function savedTheme() {
+            try { const v = localStorage.getItem('oe_theme_default'); return THEMES.includes(v) ? v : null; } catch (e) { return null; }
+        }
+        function currentTheme() { return document.documentElement.dataset.theme; }
+
+        function refreshDefaultBtn() {
+            const isDef = savedTheme() === currentTheme();
+            setDefaultBtn.classList.toggle('is-set', isDef);
+            setDefaultBtn.querySelector('i').className = isDef ? 'fa-solid fa-circle-check' : 'fa-solid fa-thumbtack';
+            setDefaultBtn.querySelector('span').innerHTML = isDef ? t('th_set_done') : t('th_set');
+        }
+
+        function showToast(msg) {
+            const old = document.querySelector('.toast'); if (old) old.remove();
+            const el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML = '<i class="fa-solid fa-thumbtack"></i> ' + msg;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 2600);
+        }
+
+        function setTheme(name) {
+            if (!THEMES.includes(name)) name = 'gyaru';
+            document.documentElement.dataset.theme = name;
+            themeSelect.value = name;
+            buildSparkles();
+            refreshDefaultBtn();
+        }
+
+        themeSelect.addEventListener('change', e => setTheme(e.target.value));
+        setDefaultBtn.addEventListener('click', () => {
+            try { localStorage.setItem('oe_theme_default', currentTheme()); } catch (e) {}
+            refreshDefaultBtn();
+            showToast(t('th_toast'));
+        });
+
+        /* ===== Destellos flotantes por tema ===== */
+        const SPARKS = {
+            gyaru:  { ch: ['\u2726', '\u2727'], col: ['#ffffff', '#ffd23f', '#ff9de2', '#a0f0ff'], n: 30, min: 9,  max: 24 },
+            office: { ch: ['+', '\u00b7'],       col: ['#8a8a8a', '#b5b5b5', '#5c5c5c'],            n: 22, min: 12, max: 20 },
+            emo:    { ch: ['\u25a0', '+', '\u00d7'], col: ['#000000', '#6e6e6e', '#ffffff'],       n: 26, min: 8,  max: 16 },
+            idol:   { ch: ['\u2726'],            col: ['#cf4a45', '#b8bfcc', '#ffffff', '#7f93b5'], n: 20, min: 14, max: 34 }
+        };
+        const starsBox = document.createElement('div');
+        starsBox.className = 'stars';
+        document.body.appendChild(starsBox);
+
+        function buildSparkles() {
+            const cfg = SPARKS[currentTheme()] || SPARKS.gyaru;
+            starsBox.innerHTML = '';
+            for (let i = 0; i < cfg.n; i++) {
+                const s = document.createElement('span');
+                s.className = 'star';
+                s.textContent = cfg.ch[Math.floor(Math.random() * cfg.ch.length)];
+                s.style.left = (Math.random() * 100) + '%';
+                s.style.top = (Math.random() * 100) + '%';
+                s.style.fontSize = (cfg.min + Math.random() * (cfg.max - cfg.min)) + 'px';
+                s.style.color = cfg.col[Math.floor(Math.random() * cfg.col.length)];
+                s.style.animationDelay = (Math.random() * 2.5) + 's, ' + (Math.random() * 6) + 's';
+                s.style.animationDuration = (1.6 + Math.random() * 2.2) + 's, ' + (7 + Math.random() * 6) + 's';
+                starsBox.appendChild(s);
+            }
+        }
+
+        /* =====================================================
+           NAVEGACION, CONTADOR, SPLASH
+           ===================================================== */
         function enterSite() {
             const splash = document.getElementById('splash-screen');
-            const main = document.getElementById('main-content');
-
             splash.style.opacity = '0';
-            splash.style.transition = 'opacity 0.2s ease';
-
+            splash.style.transition = 'opacity .2s ease';
             setTimeout(() => {
                 splash.style.display = 'none';
-                main.style.display = 'block';
+                document.getElementById('main-content').style.display = 'block';
             }, 200);
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            let visits = localStorage.getItem('site_visits');
-            if (!visits) {
-                visits = 142; 
-            } else {
-                visits = parseInt(visits) + 1;
-            }
-            localStorage.setItem('site_visits', visits);
-            document.getElementById('visitor-count').innerText = String(visits).padStart(6, '0');
+        document.querySelectorAll('[data-go]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const id = a.dataset.go;
+                if (id === 'top') { document.getElementById('content-scroll').scrollTo({ top: 0, behavior: 'smooth' }); return; }
+                document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
         });
 
+        /* =====================================================
+           FORMULARIO
+           ===================================================== */
+        const form = document.getElementById('contact-form');
+        const statusDiv = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitIcon = document.getElementById('submit-icon');
+        const submitLabel = document.getElementById('submit-label');
         const budgetField = document.getElementById('budget');
         const typeSelect = document.getElementById('desperation');
         const contactMethod = document.getElementById('contact_method');
         const contactInfo = document.getElementById('contact_info');
-        typeSelect.addEventListener('change', () => {
+
+        function applyTypeState() {
             if (typeSelect.value === 'Solo una Pregunta Anonima') {
                 budgetField.value = '0';
                 budgetField.readOnly = true;
-                // Pregunta anonima: sin contacto de vuelta (campos grises y bloqueados)
                 contactMethod.disabled = true;
                 contactInfo.disabled = true;
+                contactInfo.required = false;
                 contactInfo.value = '';
-                contactInfo.placeholder = 'No aplica para preguntas anonimas';
+                contactInfo.placeholder = t('ph_ci_off');
             } else {
                 budgetField.readOnly = false;
                 if (budgetField.value === '0') budgetField.value = '';
                 contactMethod.disabled = false;
                 contactInfo.disabled = false;
-                contactInfo.placeholder = 'Ej. tunombre@gmail.com / +51 999 999 999 / @tucuenta';
+                contactInfo.required = true;
+                contactInfo.placeholder = (lang === 'es' && contactInfo.dataset.phEs) ? contactInfo.dataset.phEs : (t('ph_ci') || contactInfo.dataset.phEs);
+            }
+        }
+        typeSelect.addEventListener('change', applyTypeState);
+
+        function setSending(on) {
+            submitBtn.disabled = on;
+            submitIcon.className = on ? 'fa-solid fa-spinner fa-spin' : 'fa-solid fa-envelope-circle-check';
+            submitLabel.innerHTML = on ? t('st_sending') : t('btn_send');
+        }
+
+        /* ===== Flujo post-formulario ===== */
+        const postPanel = document.getElementById('post-panel');
+        const postActions = document.getElementById('post-actions');
+        const postAnswer = document.getElementById('post-answer');
+        const againBtn = document.getElementById('again-btn');
+
+        function showPost() {
+            form.hidden = true;
+            postPanel.hidden = false;
+            postActions.hidden = false;
+            postAnswer.innerHTML = '';
+            againBtn.hidden = true;
+            postPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        document.getElementById('chat-yes').addEventListener('click', () => {
+            postActions.hidden = true;
+            againBtn.hidden = false;
+            if (tawkReady && window.Tawk_API && typeof Tawk_API.maximize === 'function') {
+                postAnswer.innerHTML = '<i class="fa-solid fa-comments"></i> <span>' + t('pf_open') + '</span>';
+                try { Tawk_API.showWidget(); Tawk_API.maximize(); } catch (e) {}
+            } else {
+                postAnswer.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <span>' + t('pf_nochat') + '</span>';
             }
         });
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwAPPEemwEPcRmDXYfvwTHclmZ1rpZJGoScWYZsbMHMEaRdHSXjsBw1uiwydKBBN8AJ-Q/exec'; 
-        const form = document.getElementById('contact-form');
-        const statusDiv = document.getElementById('form-status');
-        const submitBtn = document.getElementById('submit-btn');
+        document.getElementById('chat-no').addEventListener('click', () => {
+            postActions.hidden = true;
+            againBtn.hidden = false;
+            postAnswer.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span>' + t('pf_no_txt') + '</span>';
+        });
+
+        againBtn.addEventListener('click', () => {
+            postPanel.hidden = true;
+            form.hidden = false;
+            statusDiv.innerHTML = '';
+            try { if (window.Tawk_API && tawkReady) { Tawk_API.minimize(); Tawk_API.hideWidget(); } } catch (e) {}
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
 
         form.addEventListener('submit', e => {
             e.preventDefault();
-
-            if(scriptURL.includes('PEGAR_AQUI')) {
-                alert('Falta configurar el enlace de Google Script en el codigo web.');
+            if (scriptURL.includes('PEGAR_AQUI')) {
+                alert('Falta configurar el enlace de Google Script en el código web.');
                 return;
             }
+            setSending(true);
+            statusDiv.innerHTML = '';
 
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'TRANSMITIENDO...';
-            statusDiv.innerText = 'Enviando paquete de datos...';
-
-            fetch(scriptURL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: new FormData(form)
-            })
-            .then(response => {
-                statusDiv.innerHTML = '<i class="fa-solid fa-check"></i> Mensaje transmitido con éxito. La Oficina te responderá pronto.';
-                form.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> ENVIAR A GMAIL';
-            })
-            .catch(error => {
-                statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error de transmisión.';
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> ENVIAR A GMAIL';
-            });
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+                .then(() => {
+                    form.reset();
+                    applyTypeState();
+                    setSending(false);
+                    showPost();
+                })
+                .catch(() => {
+                    statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + t('st_err');
+                    setSending(false);
+                });
         });
 
-        // estrellitas gyaru titilando
-        const starsBox = document.createElement('div');
-        starsBox.className = 'stars';
-        document.body.appendChild(starsBox);
-        const starColors = ['#ffffff', '#ffd23f', '#ff9de2', '#a0f0ff'];
-        for (let i = 0; i < 30; i++) {
-            const s = document.createElement('span');
-            s.className = 'star';
-            s.textContent = '\u2726';
-            s.style.left = (Math.random() * 100) + '%';
-            s.style.top = (Math.random() * 100) + '%';
-            s.style.fontSize = (9 + Math.random() * 15) + 'px';
-            s.style.color = starColors[Math.floor(Math.random() * starColors.length)];
-            s.style.animationDelay = (Math.random() * 2.5) + 's';
-            s.style.animationDuration = (1.6 + Math.random() * 2.2) + 's';
-            starsBox.appendChild(s);
-        }
+        /* =====================================================
+           INICIO
+           ===================================================== */
+        window.addEventListener('DOMContentLoaded', () => {
+            // cachear textos en español
+            document.querySelectorAll('[data-i18n]').forEach(el => { el.dataset.es = el.innerHTML; });
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.dataset.phEs = el.placeholder; });
+
+            // contador de visitas
+            let visits = 142;
+            try {
+                const v = localStorage.getItem('site_visits');
+                visits = v ? parseInt(v, 10) + 1 : 142;
+                localStorage.setItem('site_visits', visits);
+            } catch (e) {}
+            document.querySelectorAll('.js-count').forEach(el => { el.textContent = String(visits).padStart(6, '0'); });
+
+            // estética predeterminada
+            setTheme(savedTheme() || currentTheme());
+
+            // idioma guardado
+            let savedLang = 'es';
+            try { savedLang = localStorage.getItem('oe_lang') || 'es'; } catch (e) {}
+            document.getElementById('lang-select').value = I18N[savedLang] ? savedLang : 'es';
+            applyLang(savedLang);
+            applyTypeState();
+        });
+
+        document.getElementById('lang-select').addEventListener('change', e => applyLang(e.target.value));
     </script>
 </body>
 </html>
